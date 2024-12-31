@@ -18,8 +18,4 @@ function bright.runTransformers(): process.SpawnResult
 	return _runBright({ "run" })
 end
 
-function bright.runTransformer(transformer: string): process.SpawnResult
-	return _runBright({ "run", transformer })
-end
-
 return bright

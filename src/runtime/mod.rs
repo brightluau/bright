@@ -22,7 +22,7 @@ impl Runtime {
 		Ok(Runtime { lua })
 	}
 
-	pub fn run_transformer(self, path: &PathBuf) -> Result<()> {
+	pub fn run_transformer(&self, path: &PathBuf) -> Result<()> {
 		let contents = fs::read_to_string(path).expect("transformer script does not exist");
 
 		let script = self
