@@ -3,6 +3,8 @@ use std::{fs, path::PathBuf};
 use color_eyre::{eyre::Report, Result};
 use mlua::{prelude::*, Function, StdLib};
 
+use crate::config::Config;
+
 mod globals;
 
 pub struct Runtime {
@@ -22,7 +24,7 @@ impl Runtime {
 		Ok(Runtime { lua })
 	}
 
-	pub fn run_transformer(&self, path: &PathBuf) -> Result<()> {
+	pub fn run_transformer(&self, name: &String, path: &PathBuf, config: &Config) -> Result<()> {
 		let contents = fs::read_to_string(path).expect("transformer script does not exist");
 
 		let script = self
@@ -32,7 +34,11 @@ impl Runtime {
 		let function = script.eval::<Function>();
 
 		match function {
-			Ok(func) => Ok(func.call::<_, ()>(())?),
+			Ok(func) => {
+				let transformer_rules = config.get_transformer_rules(name, &self.lua)?;
+
+				Ok(func.call::<_, ()>(&(transformer_rules))?)
+			}
 
 			// handle conversion errors differently since it's not exactly clear when this fails
 			Err(mlua::Error::FromLuaConversionError { .. }) => {
@@ -64,7 +70,11 @@ mod tests {
 			.join(transformer.to_string() + ".luau");
 
 		runtime
-			.run_transformer(transformer_path)
+			.run_transformer(
+				&transformer.to_string(),
+				transformer_path,
+				&Config::default(),
+			)
 			.expect("could not load/run transformer");
 	}
 }

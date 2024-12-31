@@ -5,7 +5,7 @@ use color_eyre::{eyre::Context, Result};
 use include_dir::{include_dir, Dir};
 use owo_colors::{colors::BrightBlack, OwoColorize};
 
-use crate::symbols::SUCCESS;
+use crate::{config::Config, symbols::SUCCESS};
 
 use super::CliCommand;
 
@@ -20,7 +20,7 @@ pub struct Command {
 }
 
 impl CliCommand for Command {
-	fn run(self) -> Result<ExitCode> {
+	fn run(self, _config: &Config) -> Result<ExitCode> {
 		if !self.force && !typedefs_need_update()? {
 			println!(
 				"{} Your typedefs are up to date! {}",

@@ -2,8 +2,11 @@ use std::process::ExitCode;
 
 use clap::Parser;
 use color_eyre::Result;
+use config::Config;
+use symbols::ERROR;
 
 pub(crate) mod cli;
+pub(crate) mod config;
 pub(crate) mod runtime;
 pub(crate) mod symbols;
 
@@ -21,6 +24,13 @@ fn main() -> Result<ExitCode> {
 	color_eyre::install()?;
 
 	let cli = Cli::parse();
+	let config = match Config::load() {
+		Ok(config) => config,
+		Err(e) => {
+			eprintln!("{} Could not parse config:\n{}", *ERROR, e);
+			return Ok(ExitCode::FAILURE);
+		}
+	};
 
-	Ok(cli.command.unwrap_or_default().run()?)
+	Ok(cli.command.unwrap_or_default().run(&config)?)
 }

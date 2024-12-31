@@ -3,12 +3,14 @@ use std::process::ExitCode;
 use clap::Subcommand;
 use color_eyre::Result;
 
+use crate::config::Config;
+
 pub(crate) mod init;
 pub(crate) mod install;
 pub(crate) mod run;
 
 pub trait CliCommand {
-	fn run(self) -> Result<ExitCode>;
+	fn run(self, config: &Config) -> Result<ExitCode>;
 }
 
 #[derive(Subcommand)]
@@ -19,11 +21,11 @@ pub enum Command {
 }
 
 impl Command {
-	pub fn run(self) -> Result<ExitCode> {
+	pub fn run(self, config: &Config) -> Result<ExitCode> {
 		match self {
-			Self::Init(cmd) => cmd.run(),
-			Self::Run(cmd) => cmd.run(),
-			Self::Install(cmd) => cmd.run(),
+			Self::Init(cmd) => cmd.run(config),
+			Self::Run(cmd) => cmd.run(config),
+			Self::Install(cmd) => cmd.run(config),
 		}
 	}
 }
