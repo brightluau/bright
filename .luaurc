@@ -1,0 +1,10 @@
+{
+    "languageMode": "strict",
+    "lint": {
+        "*": true
+    },
+    "typeErrors": true,
+    "aliases": {
+        "bright": "./types"
+    }
+}

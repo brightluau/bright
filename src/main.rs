@@ -1,59 +1,32 @@
-use std::path::PathBuf;
+use clap::Parser;
+use cli::CliCommand;
+use color_eyre::Result;
 
-use clap::{Parser, Subcommand};
+pub(crate) mod cli;
+pub(crate) mod runtime;
 
+use self::cli::Command;
+
+/// Bright, a scriptable tool for transforming and transpiling Luau code
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
-/// Bright, a scriptable tool for transforming and transpiling Luau code
 struct Cli {
     #[command(subcommand)]
-    command: Commands,
+    command: Option<Command>,
 }
 
-#[derive(Subcommand)]
-enum Commands {
-    /// Initializes the current folder with a Bright setup
-    Init,
-
-    /// Runs the configured transformers over source code
-    Run {
-        #[arg(default_value="src/")]
-        /// The source folder to run the transformers on
-        source: PathBuf,
-    },
-
-    /// Runs a singular transformer for testing purposes
-    Test {
-        /// The transformer to test
-        rule: String,
-
-        /// The source file to run the transformer on
-        source: PathBuf,
-
-        /// The output file to write the transformed code to
-        output: PathBuf,
-    },
-}
-
-fn main() {
-    let log_level = match std::env::var("RUST_LOG") {
-        Ok(value) => value,
-        Err(_) => "info".to_string(),
-    };
-
-    std::env::set_var("RUST_LOG", log_level);
-    pretty_env_logger::init();
+fn main() -> Result<()> {
+    color_eyre::install()?;
+    colog::init();
 
     let cli = Cli::parse();
 
-    match &cli.command {
-        Commands::Init => {
-            todo!()
-        },
-        Commands::Run { source: source_folder } => {
-            log::info!("folder: {}", source_folder.display());
-            todo!()
-        },
-        Commands::Test { .. } => todo!()
+    match cli.command.unwrap_or_default() {
+        Command::Init(cmd) => cmd.run()?,
+        Command::Run(cmd) => cmd.run()?,
+        Command::Test(cmd) => cmd.run()?,
+        Command::Install(cmd) => cmd.run()?,
     }
+
+    Ok(())
 }

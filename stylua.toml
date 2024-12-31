@@ -1,0 +1,7 @@
+syntax = "Luau"
+
+call_parentheses = "Input"
+quote_style = "AutoPreferDouble"
+
+[sort_requires]
+enabled = true
