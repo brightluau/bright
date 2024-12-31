@@ -5,7 +5,7 @@ use color_eyre::Result;
 
 use crate::{
 	runtime::Runtime,
-	symbols::{ERROR, INFO, SUCCESS},
+	symbols::{ERROR, IMPORTANT, SUCCESS},
 };
 
 use super::{install::typedefs_need_update, CliCommand};
@@ -30,7 +30,7 @@ impl CliCommand for Command {
 		match typedefs_need_update() {
 			Ok(true) => println!(
 				"{} Your typedefs need updating! Run `{} install` to update them.",
-				*INFO,
+				*IMPORTANT,
 				clap::crate_name!()
 			),
 			_ => {}
@@ -43,17 +43,18 @@ impl CliCommand for Command {
 			_ => vec![],
 		};
 
+		if transformers.is_empty() {
+			println!("Nothing to do.");
+			return Ok(());
+		}
+
 		for transformer in &transformers {
-			let result = runtime.run_transformer(&PathBuf::from("./tests/transformers").join(transformer));
+			let result =
+				runtime.run_transformer(&PathBuf::from("./tests/transformers").join(transformer));
 
 			match result {
 				Ok(()) => println!("{} transformer {} ran successfully", *SUCCESS, transformer),
-				Err(e) => eprintln!(
-					"{} transformer {} failed:\n\n{}",
-					*ERROR,
-					transformer,
-					e
-				),
+				Err(e) => eprintln!("{} transformer {} failed:\n\n{}", *ERROR, transformer, e),
 			}
 		}
 

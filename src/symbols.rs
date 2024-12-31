@@ -6,5 +6,5 @@ use owo_colors::{
 lazy_static::lazy_static! {
 	pub static ref SUCCESS: String = '✔'.fg::<Green>().to_string();
 	pub static ref ERROR: String = '✖'.fg::<Red>().to_string();
-	pub static ref INFO: String = '★'.fg::<Blue>().to_string();
+	pub static ref IMPORTANT: String = '★'.fg::<Blue>().to_string();
 }
