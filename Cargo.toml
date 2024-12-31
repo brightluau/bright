@@ -1,0 +1,11 @@
+[package]
+name = "bright"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.23", features = ["derive"] }
+full_moon = "1.1.2"
+log = "0.4.22"
+mlua = { version = "0.9.9", features = ["luau"] }
+pretty_env_logger = "0.5.0"
