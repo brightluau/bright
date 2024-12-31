@@ -4,6 +4,7 @@ use color_eyre::Result;
 
 pub(crate) mod cli;
 pub(crate) mod runtime;
+pub(crate) mod symbols;
 
 use self::cli::Command;
 
@@ -11,22 +12,21 @@ use self::cli::Command;
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 struct Cli {
-    #[command(subcommand)]
-    command: Option<Command>,
+	#[command(subcommand)]
+	command: Option<Command>,
 }
 
 fn main() -> Result<()> {
-    color_eyre::install()?;
-    colog::init();
+	color_eyre::install()?;
 
-    let cli = Cli::parse();
+	let cli = Cli::parse();
 
-    match cli.command.unwrap_or_default() {
-        Command::Init(cmd) => cmd.run()?,
-        Command::Run(cmd) => cmd.run()?,
-        Command::Test(cmd) => cmd.run()?,
-        Command::Install(cmd) => cmd.run()?,
-    }
+	match cli.command.unwrap_or_default() {
+		Command::Init(cmd) => cmd.run()?,
+		Command::Run(cmd) => cmd.run()?,
+		Command::Test(cmd) => cmd.run()?,
+		Command::Install(cmd) => cmd.run()?,
+	}
 
-    Ok(())
+	Ok(())
 }

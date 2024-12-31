@@ -3,13 +3,11 @@ use mlua::prelude::*;
 pub(super) mod require;
 
 pub enum Globals {
-	Require
+	Require,
 }
 
 impl Globals {
-	pub const ALL: &'static [Self] = &[
-		Self::Require
-	];
+	pub const ALL: &'static [Self] = &[Self::Require];
 
 	pub fn create<'lua>(&self, lua: &'lua Lua) -> LuaResult<LuaValue<'lua>> {
 		match self {
@@ -19,7 +17,7 @@ impl Globals {
 
 	pub fn name(&self) -> &'static str {
 		match self {
-			Self::Require => "require"
+			Self::Require => "require",
 		}
 	}
 }

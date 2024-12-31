@@ -8,7 +8,7 @@ use super::CliCommand;
 pub struct Command {}
 
 impl CliCommand for Command {
-    fn run(self) -> Result<()> {
-        Ok(())
-    }
+	fn run(self) -> Result<()> {
+		Ok(())
+	}
 }
