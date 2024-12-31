@@ -44,3 +44,20 @@ impl Runtime {
 		}
 	}
 }
+
+#[cfg(test)]
+mod tests {
+	use super::*;
+
+	fn project_root() -> PathBuf {
+		PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+	}
+
+	#[test]
+	fn can_load_and_run_transformer() {
+		let runtime = Runtime::new().expect("could not create runtime");
+		runtime
+			.run_transformer(&project_root().join("tests/transformers/blank.luau"))
+			.expect("could not load/run transformer");
+	}
+}

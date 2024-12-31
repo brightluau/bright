@@ -5,7 +5,7 @@ use color_eyre::{eyre::Context, Result};
 use include_dir::{include_dir, Dir};
 use owo_colors::{colors::BrightBlack, OwoColorize};
 
-use crate::symbols::SUCCESS;
+use crate::symbols::{INFO, SUCCESS};
 
 use super::CliCommand;
 
@@ -23,8 +23,9 @@ impl CliCommand for Command {
 	fn run(self) -> Result<()> {
 		if !self.force && !typedefs_need_update()? {
 			println!(
-				"your typedefs are up to date! {}",
-				"(want to reinstall them? rerun with --force)".fg::<BrightBlack>()
+				"{} Your typedefs are up to date! {}",
+				*INFO,
+				"(Want to reinstall them? Rerun with --force)".fg::<BrightBlack>()
 			);
 
 			return Ok(());
@@ -33,7 +34,7 @@ impl CliCommand for Command {
 		install_typedefs().expect("could not install typedefs");
 
 		println!(
-			"{} typedefs installed at `{}`",
+			"{} Typedefs installed at `{}`",
 			*SUCCESS,
 			typedefs_directory().display()
 		);
