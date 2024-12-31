@@ -1,4 +1,4 @@
-use std::{fs, path::PathBuf};
+use std::{fs, path::PathBuf, process::ExitCode};
 
 use clap::Parser;
 use color_eyre::{eyre::Context, Result};
@@ -20,7 +20,7 @@ pub struct Command {
 }
 
 impl CliCommand for Command {
-	fn run(self) -> Result<()> {
+	fn run(self) -> Result<ExitCode> {
 		if !self.force && !typedefs_need_update()? {
 			println!(
 				"{} Your typedefs are up to date! {}",
@@ -28,7 +28,7 @@ impl CliCommand for Command {
 				"(Want to reinstall them? Rerun with --force)".fg::<BrightBlack>()
 			);
 
-			return Ok(());
+			return Ok(ExitCode::SUCCESS);
 		}
 
 		install_typedefs().expect("could not install typedefs");
@@ -39,7 +39,7 @@ impl CliCommand for Command {
 			typedefs_directory().display()
 		);
 
-		Ok(())
+		Ok(ExitCode::SUCCESS)
 	}
 }
 

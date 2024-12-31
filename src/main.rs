@@ -1,5 +1,6 @@
+use std::process::ExitCode;
+
 use clap::Parser;
-use cli::CliCommand;
 use color_eyre::Result;
 
 pub(crate) mod cli;
@@ -16,17 +17,10 @@ struct Cli {
 	command: Option<Command>,
 }
 
-fn main() -> Result<()> {
+fn main() -> Result<ExitCode> {
 	color_eyre::install()?;
 
 	let cli = Cli::parse();
 
-	match cli.command.unwrap_or_default() {
-		Command::Init(cmd) => cmd.run()?,
-		Command::Run(cmd) => cmd.run()?,
-		Command::Test(cmd) => cmd.run()?,
-		Command::Install(cmd) => cmd.run()?,
-	}
-
-	Ok(())
+	Ok(cli.command.unwrap_or_default().run()?)
 }

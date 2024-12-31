@@ -1,10 +1,11 @@
 use owo_colors::{
-	colors::{Blue, Green, Red},
+	colors::{Blue, Green, Red, Yellow},
 	OwoColorize,
 };
 
 lazy_static::lazy_static! {
 	pub static ref SUCCESS: String = '✔'.fg::<Green>().to_string();
 	pub static ref ERROR: String = '✖'.fg::<Red>().to_string();
+	pub static ref WARNING: String = '!'.fg::<Yellow>().to_string();
 	pub static ref IMPORTANT: String = '★'.fg::<Blue>().to_string();
 }

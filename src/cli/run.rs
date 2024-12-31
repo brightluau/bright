@@ -1,11 +1,11 @@
-use std::path::PathBuf;
+use std::{path::PathBuf, process::ExitCode};
 
 use clap::Parser;
 use color_eyre::Result;
 
 use crate::{
 	runtime::Runtime,
-	symbols::{ERROR, IMPORTANT, SUCCESS},
+	symbols::{ERROR, IMPORTANT, SUCCESS, WARNING},
 };
 
 use super::{install::typedefs_need_update, CliCommand};
@@ -26,14 +26,15 @@ pub struct Command {
 }
 
 impl CliCommand for Command {
-	fn run(self) -> Result<()> {
+	fn run(self) -> Result<ExitCode> {
 		match typedefs_need_update() {
 			Ok(true) => println!(
 				"{} Your typedefs need updating! Run `{} install` to update them.",
 				*IMPORTANT,
 				clap::crate_name!()
 			),
-			_ => {}
+			Err(e) => eprintln!("{} Could not check if typedefs needed updating: {}", *WARNING, e),
+			_ => {},
 		};
 
 		let runtime = Runtime::new()?;
@@ -45,7 +46,7 @@ impl CliCommand for Command {
 
 		if transformers.is_empty() {
 			println!("Nothing to do.");
-			return Ok(());
+			return Ok(ExitCode::FAILURE);
 		}
 
 		for transformer in &transformers {
@@ -58,6 +59,6 @@ impl CliCommand for Command {
 			}
 		}
 
-		Ok(())
+		Ok(ExitCode::SUCCESS)
 	}
 }
