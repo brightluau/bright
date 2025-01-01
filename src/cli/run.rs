@@ -78,7 +78,7 @@ impl CliCommand for Command {
 
 		if transformers.is_empty() {
 			eprintln!(
-				"{} Nothing to do. {}",
+				"{} No transformers to run. {}",
 				*ERROR,
 				"(Have you configured any transformers in bright.toml?)".fg::<BrightBlack>()
 			);
@@ -142,7 +142,7 @@ impl CliCommand for Command {
 				}
 			};
 
-			sources.insert(path.to_path_buf(), ast);
+			sources.insert(path.strip_prefix(&self.input)?.to_path_buf(), ast);
 		} else {
 			for path in WalkDir::new(&self.input) {
 				let path = path.unwrap();
@@ -179,13 +179,13 @@ impl CliCommand for Command {
 					}
 				};
 
-				sources.insert(path.path().to_path_buf(), ast);
+				sources.insert(path.path().strip_prefix(&self.input)?.to_path_buf(), ast);
 			}
 		}
 
 		if sources.len() == 0 {
 			eprintln!(
-				"{} Nothing to do. {}",
+				"{} No sources to transform. {}",
 				*ERROR,
 				"(Do you need to change your source directory? Set `source` in bright.toml or pass --input)".fg::<BrightBlack>()
 			);
@@ -207,6 +207,16 @@ impl CliCommand for Command {
 		}
 
 		// write to output
+
+		fs::create_dir_all(&self.output)?;
+
+		for (path, ast) in sources {
+			let target = self.output.join(path);
+
+			fs::create_dir_all(target.parent().unwrap())?;
+
+			fs::write(target, ast.to_string())?;
+		}
 
 		Ok(ExitCode::SUCCESS)
 	}
