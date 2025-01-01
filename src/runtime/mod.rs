@@ -58,7 +58,7 @@ impl Runtime {
 	}
 
 	pub fn run_transformer(&self, transformer: &Transformer, config: &Config) -> Result<()> {
-		let transformer_rules = config.get_transformer_rules(&transformer.name, &self.lua)?;
+		let transformer_rules = config.transformer_rules(&transformer.name, &self.lua)?;
 
 		Ok(transformer.function.call::<_, ()>(&(transformer_rules))?)
 	}

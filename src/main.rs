@@ -23,14 +23,12 @@ struct Cli {
 fn main() -> Result<ExitCode> {
 	color_eyre::install()?;
 
-	let cli = Cli::parse();
-	let config = match Config::load() {
-		Ok(config) => config,
-		Err(e) => {
-			eprintln!("{} Could not parse config:\n{}", *ERROR, e);
-			return Ok(ExitCode::FAILURE);
-		}
-	};
+	if let Err(e) = Config::load() {
+		eprintln!("{} Could not parse config:\n{}", *ERROR, e);
+		return Ok(ExitCode::FAILURE);
+	}
 
-	Ok(cli.command.unwrap_or_default().run(&config)?)
+	let cli = Cli::parse();
+
+	Ok(cli.command.unwrap_or_default().run()?)
 }

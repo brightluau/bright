@@ -12,7 +12,7 @@ use super::CliCommand;
 pub struct Command {}
 
 impl CliCommand for Command {
-	fn run(self, _config: &Config) -> Result<ExitCode> {
+	fn run(self) -> Result<ExitCode> {
 		Ok(ExitCode::SUCCESS)
 	}
 }

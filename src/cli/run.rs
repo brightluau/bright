@@ -19,16 +19,18 @@ pub struct Command {
 	transformers: Option<Vec<String>>,
 
 	/// The folder containing the files to be transformed, or an individual file
-	#[arg(short, long, default_value = "src/")]
+	#[arg(short, long, default_value = Config::global().source(), value_parser)]
 	input: PathBuf,
 
 	/// The destination folder for the transformed files, or an individual file
-	#[arg(short, long, default_value = "output/")]
+	#[arg(short, long, default_value = Config::global().output(), value_parser)]
 	output: PathBuf,
 }
 
 impl CliCommand for Command {
-	fn run(self, config: &Config) -> Result<ExitCode> {
+	fn run(self) -> Result<ExitCode> {
+		let config = Config::global();
+
 		match typedefs_need_update() {
 			Ok(true) => println!(
 				"{} Your typedefs need updating! Run `{} install` to update them.",
@@ -42,15 +44,20 @@ impl CliCommand for Command {
 			_ => {}
 		};
 
+		if !self.input.try_exists()? {
+			eprintln!("{} Source path `{}` does not exist.", *ERROR, self.input.display());
+			return Ok(ExitCode::FAILURE);
+		}
+
 		let runtime = Runtime::new()?;
 
 		let transformers = match &self.transformers {
 			Some(transformers) => transformers,
-			_ => config.get_transformers(),
+			_ => config.transformers(),
 		};
 
 		if transformers.is_empty() {
-			println!("{} Nothing to do. {}", *ERROR, "(Have you configured any transformers in bright.toml?)".fg::<BrightBlack>());
+			eprintln!("{} Nothing to do. {}", *ERROR, "(Have you configured any transformers in bright.toml?)".fg::<BrightBlack>());
 			return Ok(ExitCode::FAILURE);
 		}
 
@@ -79,6 +86,12 @@ impl CliCommand for Command {
 			}
 		}
 
+		// load source files
+
+
+
+		// transform source code
+
 		for transformer in transformer_stack {
 			let result = runtime.run_transformer(
 				&transformer,
@@ -90,6 +103,8 @@ impl CliCommand for Command {
 				Err(e) => eprintln!("{} Transformer `{}` failed:\n{}", *ERROR, transformer.name, e),
 			}
 		}
+
+		// write to output
 
 		Ok(ExitCode::SUCCESS)
 	}

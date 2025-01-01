@@ -1,28 +1,41 @@
-use std::fs;
+use std::{fs, sync::OnceLock};
 
 use mlua::{Lua, LuaSerdeExt};
 use serde::Deserialize;
 use toml::Table;
 
-#[derive(Deserialize)]
+#[derive(Deserialize, Debug)]
+#[serde(default)]
 pub struct Config {
+	source: String,
+	output: String,
 	transformers: Vec<String>,
 	rules: Option<Table>,
 }
 
+static INSTANCE: OnceLock<Config> = OnceLock::new();
+
 impl Config {
-	pub fn load() -> Result<Config, toml::de::Error> {
-		match fs::read_to_string("bright.toml") {
-			Ok(contents) => toml::from_str(&contents),
-			_ => Ok(Config::default()),
-		}
+	pub fn global() -> &'static Config {
+		INSTANCE.get().expect("Config is not initialized")
 	}
 
-	pub fn get_transformers(&self) -> &Vec<String> {
+	pub fn load() -> Result<(), toml::de::Error> {
+		let config = match fs::read_to_string("bright.toml") {
+			Ok(contents) => toml::from_str(&contents),
+			_ => Ok(Config::default()),
+		}.unwrap();
+
+		INSTANCE.set(config).unwrap();
+
+		Ok(())
+	}
+
+	pub fn transformers(&self) -> &Vec<String> {
 		&self.transformers
 	}
 
-	pub fn get_transformer_rules<'lua>(
+	pub fn transformer_rules<'lua>(
 		&self,
 		name: &String,
 		lua: &'lua Lua,
@@ -33,11 +46,21 @@ impl Config {
 
 		lua.to_value(&rules.get(name))
 	}
+
+	pub fn source(&self) -> &String {
+		&self.source
+	}
+
+	pub fn output(&self) -> &String {
+		&self.output
+	}
 }
 
 impl Default for Config {
 	fn default() -> Config {
 		Config {
+			source: "src/".to_string(),
+			output: "output/".to_string(),
 			transformers: vec![],
 			rules: None,
 		}

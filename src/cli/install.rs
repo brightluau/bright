@@ -20,7 +20,7 @@ pub struct Command {
 }
 
 impl CliCommand for Command {
-	fn run(self, _config: &Config) -> Result<ExitCode> {
+	fn run(self) -> Result<ExitCode> {
 		if !self.force && !typedefs_need_update()? {
 			println!(
 				"{} Your typedefs are up to date! {}",

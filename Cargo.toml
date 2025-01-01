@@ -4,7 +4,7 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-clap = { version = "4.5.23", features = ["cargo", "derive"] }
+clap = { version = "4.5.23", features = ["cargo", "derive", "string"] }
 color-eyre = { version = "0.6.3", default-features = false }
 directories = "5.0.1"
 full_moon = { version = "1.1.2", features = ["luau"] }

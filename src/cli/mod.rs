@@ -10,7 +10,7 @@ pub(crate) mod install;
 pub(crate) mod run;
 
 pub trait CliCommand {
-	fn run(self, config: &Config) -> Result<ExitCode>;
+	fn run(self) -> Result<ExitCode>;
 }
 
 #[derive(Subcommand)]
@@ -21,11 +21,11 @@ pub enum Command {
 }
 
 impl Command {
-	pub fn run(self, config: &Config) -> Result<ExitCode> {
+	pub fn run(self) -> Result<ExitCode> {
 		match self {
-			Self::Init(cmd) => cmd.run(config),
-			Self::Run(cmd) => cmd.run(config),
-			Self::Install(cmd) => cmd.run(config),
+			Self::Init(cmd) => cmd.run(),
+			Self::Run(cmd) => cmd.run(),
+			Self::Install(cmd) => cmd.run(),
 		}
 	}
 }
