@@ -13,7 +13,7 @@ use crate::{
 use super::{install::typedefs_need_update, CliCommand};
 
 /// Runs the configured transformers over source code
-#[derive(Default, Parser)]
+#[derive(Parser)]
 pub struct Command {
 	/// The transformers to execute
 	transformers: Option<Vec<String>>,
@@ -25,6 +25,17 @@ pub struct Command {
 	/// The destination folder for the transformed files, or an individual file
 	#[arg(short, long, default_value = Config::global().output(), value_parser)]
 	output: PathBuf,
+}
+
+impl Default for Command {
+	fn default() -> Self {
+		Self {
+			input: PathBuf::from(Config::global().source()),
+			output: PathBuf::from(Config::global().output()),
+			
+			transformers: Default::default(),
+		}
+	}
 }
 
 impl CliCommand for Command {

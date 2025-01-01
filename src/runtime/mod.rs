@@ -26,7 +26,7 @@ impl Runtime {
 
 		lua.sandbox(true)?;
 
-		Ok(Runtime { lua })
+		Ok(Self { lua })
 	}
 
 	pub fn compile_transformer(&self, name: &String, path: &PathBuf) -> Result<Transformer> {
