@@ -5,7 +5,7 @@ use color_eyre::{eyre::Context, Result};
 use include_dir::{include_dir, Dir};
 use owo_colors::{colors::BrightBlack, OwoColorize};
 
-use crate::symbols::SUCCESS;
+use crate::symbols::{ERROR, SUCCESS};
 
 use super::CliCommand;
 
@@ -31,7 +31,13 @@ impl CliCommand for Command {
 			return Ok(ExitCode::SUCCESS);
 		}
 
-		install_typedefs().expect("could not install typedefs");
+		match install_typedefs() {
+			Err(e) => {
+				eprintln!("{} Could not install typedefs: {}", *ERROR, e);
+				return Ok(ExitCode::FAILURE);
+			},
+			_ => {},
+		}
 
 		println!(
 			"{} Typedefs installed at `{}`",
