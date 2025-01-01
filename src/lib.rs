@@ -10,7 +10,8 @@ macro_rules! directory {
 
 		// TODO: is this the best place for this?
 		UserDirs::new()
-			.expect("could not find home directory")
+			.context("Could not find home directory")
+			.unwrap()
 			.home_dir()
 			.join(".bright")
 	}};

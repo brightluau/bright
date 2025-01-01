@@ -3,7 +3,7 @@ use std::process::exit;
 use anyhow::Result;
 use clap::Parser;
 use config::Config;
-use symbols::ERROR;
+use symbols::Symbols::Error;
 
 pub(crate) mod cli;
 pub(crate) mod config;
@@ -22,7 +22,7 @@ struct Cli {
 
 fn main() -> Result<()> {
 	if let Err(e) = Config::load() {
-		eprintln!("{} Could not parse config:\n{e}", *ERROR);
+		eprintln!("{} Could not parse config:\n{e}", Error);
 		exit(1);
 	}
 
@@ -30,7 +30,7 @@ fn main() -> Result<()> {
 
 	match cli.command.unwrap_or_default().run() {
 		Err(e) => {
-			eprintln!("{} {e:?}", *ERROR);
+			eprintln!("{} {e:?}", Error);
 			exit(1);
 		}
 		_ => {}

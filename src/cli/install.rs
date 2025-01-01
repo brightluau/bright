@@ -5,7 +5,7 @@ use clap::Parser;
 use include_dir::{include_dir, Dir};
 use owo_colors::{colors::BrightBlack, OwoColorize};
 
-use crate::symbols::SUCCESS;
+use crate::symbols::Symbols::Success;
 
 use super::CliCommand;
 
@@ -26,7 +26,7 @@ impl CliCommand for Command {
 		if !self.force && !typedefs_need_update()? {
 			println!(
 				"{} Your typedefs are up to date! {}",
-				*SUCCESS,
+				Success,
 				"Want to reinstall them? Rerun with --force."
 					.fg::<BrightBlack>()
 					.italic()
@@ -44,7 +44,7 @@ impl CliCommand for Command {
 
 		println!(
 			"{} Typedefs installed at `{}`",
-			*SUCCESS,
+			Success,
 			typedefs_directory().display()
 		);
 

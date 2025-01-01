@@ -15,7 +15,7 @@ use walkdir::WalkDir;
 use crate::{
 	config::Config,
 	runtime::{Runtime, Transformer},
-	symbols::{ERROR, IMPORTANT, SUCCESS, WARNING},
+	symbols::Symbols::{Error, Important, Success, Warning},
 };
 
 use super::{install::typedefs_need_update, CliCommand};
@@ -53,14 +53,14 @@ impl CliCommand for Command {
 		match typedefs_need_update() {
 			Ok(true) => println!(
 				"{} Your typedefs need updating! Run `{}` to update them.",
-				*IMPORTANT,
+				Important,
 				format!("{} install", clap::crate_name!())
 					.fg::<Yellow>()
 					.bold()
 			),
 			Err(e) => eprintln!(
 				"{} Could not check if typedefs needed updating: {}",
-				*WARNING, e
+				Warning, e
 			),
 			_ => {}
 		};
@@ -156,7 +156,7 @@ impl CliCommand for Command {
 
 						eprintln!(
 							"{} Failed to parse `{}`:\n{}",
-							*ERROR,
+							Error,
 							path.path().display(),
 							format_full_moon_errors(errors)
 						);
@@ -183,10 +183,10 @@ impl CliCommand for Command {
 			let result = runtime.run_transformer(&transformer, &config);
 
 			match result {
-				Ok(()) => println!("{} Transformer `{}` applied", *SUCCESS, transformer.name),
+				Ok(()) => println!("{} Transformer `{}` applied", Success, transformer.name),
 				Err(e) => eprintln!(
 					"{} Transformer `{}` failed:\n{}",
-					*ERROR, transformer.name, e
+					Error, transformer.name, e
 				),
 			}
 		}
