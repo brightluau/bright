@@ -3,8 +3,6 @@ use std::process::ExitCode;
 use clap::Subcommand;
 use color_eyre::Result;
 
-use crate::config::Config;
-
 pub(crate) mod init;
 pub(crate) mod install;
 pub(crate) mod run;

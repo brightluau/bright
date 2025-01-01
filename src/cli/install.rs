@@ -5,7 +5,7 @@ use color_eyre::{eyre::Context, Result};
 use include_dir::{include_dir, Dir};
 use owo_colors::{colors::BrightBlack, OwoColorize};
 
-use crate::{config::Config, symbols::SUCCESS};
+use crate::symbols::SUCCESS;
 
 use super::CliCommand;
 

@@ -3,8 +3,6 @@ use std::process::ExitCode;
 use clap::Parser;
 use color_eyre::Result;
 
-use crate::config::Config;
-
 use super::CliCommand;
 
 /// Initializes the current folder with a Bright setup
