@@ -25,8 +25,7 @@ impl CliCommand for Command {
 	fn run(self) -> Result<()> {
 		if !self.force && !typedefs_need_update()? {
 			println!(
-				"{} Your typedefs are up to date! {}",
-				Success,
+				"{Success} Your typedefs are up to date! {}",
 				"Want to reinstall them? Rerun with --force."
 					.fg::<BrightBlack>()
 					.italic()
@@ -43,8 +42,7 @@ impl CliCommand for Command {
 		}
 
 		println!(
-			"{} Typedefs installed at `{}`",
-			Success,
+			"{Success} Typedefs installed at `{}`",
 			typedefs_directory().display()
 		);
 

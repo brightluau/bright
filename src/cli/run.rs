@@ -52,15 +52,14 @@ impl CliCommand for Command {
 
 		match typedefs_need_update() {
 			Ok(true) => println!(
-				"{} Your typedefs need updating! Run `{}` to update them.",
-				Important,
+				"{Important} Your typedefs need updating! Run `{}` to update them.",
 				format!("{} install", clap::crate_name!())
 					.fg::<Yellow>()
 					.bold()
 			),
 			Err(e) => eprintln!(
-				"{} Could not check if typedefs needed updating: {}",
-				Warning, e
+				"{Warning} Could not check if typedefs needed updating: {}",
+				e
 			),
 			_ => {}
 		};
@@ -155,8 +154,7 @@ impl CliCommand for Command {
 						// don't end the whole operation if one source file doesn't parse, just skip it
 
 						eprintln!(
-							"{} Failed to parse `{}`:\n{}",
-							Error,
+							"{Error} Failed to parse `{}`:\n{}",
 							path.path().display(),
 							format_full_moon_errors(errors)
 						);
@@ -183,10 +181,10 @@ impl CliCommand for Command {
 			let result = runtime.run_transformer(&transformer, &config);
 
 			match result {
-				Ok(()) => println!("{} Transformer `{}` applied", Success, transformer.name),
+				Ok(()) => println!("{Success} Transformer `{}` applied", transformer.name),
 				Err(e) => eprintln!(
-					"{} Transformer `{}` failed:\n{}",
-					Error, transformer.name, e
+					"{Error} Transformer `{}` failed:\n{}",
+					transformer.name, e
 				),
 			}
 		}

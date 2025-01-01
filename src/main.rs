@@ -22,7 +22,7 @@ struct Cli {
 
 fn main() -> Result<()> {
 	if let Err(e) = Config::load() {
-		eprintln!("{} Could not parse config:\n{e}", Error);
+		eprintln!("{Error} Could not parse config:\n{e}");
 		exit(1);
 	}
 
@@ -30,7 +30,7 @@ fn main() -> Result<()> {
 
 	match cli.command.unwrap_or_default().run() {
 		Err(e) => {
-			eprintln!("{} {e:?}", Error);
+			eprintln!("{Error} {e:?}");
 			exit(1);
 		}
 		_ => {}
