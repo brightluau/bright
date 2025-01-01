@@ -11,6 +11,11 @@ pub struct Runtime {
 	lua: Lua,
 }
 
+pub struct Transformer<'a> {
+	pub name: String,
+	function: Function<'a>,
+}
+
 impl Runtime {
 	pub fn new() -> Result<Self> {
 		let options = LuaOptions::new().catch_rust_panics(false); // panics should result in the runtime crashing
@@ -24,20 +29,22 @@ impl Runtime {
 		Ok(Runtime { lua })
 	}
 
-	pub fn run_transformer(&self, name: &String, path: &PathBuf, config: &Config) -> Result<()> {
-		let contents = fs::read_to_string(path).expect("transformer script does not exist");
+	pub fn compile_transformer(&self, name: &String, path: &PathBuf) -> Result<Transformer> {
+		let contents = fs::read_to_string(&path).expect("transformer script does not exist");
 
 		let script = self
 			.lua
 			.load(contents)
 			.set_name(format!("@{}", path.display()));
+
 		let function = script.eval::<Function>();
 
 		match function {
 			Ok(func) => {
-				let transformer_rules = config.get_transformer_rules(name, &self.lua)?;
-
-				Ok(func.call::<_, ()>(&(transformer_rules))?)
+				Ok(Transformer {
+					name: name.to_string(),
+					function: func
+				})
 			}
 
 			// handle conversion errors differently since it's not exactly clear when this fails
@@ -48,6 +55,12 @@ impl Runtime {
 			// normal errors just get converted into eyre reports and passed up
 			Err(e) => Err(Report::new(e)),
 		}
+	}
+
+	pub fn run_transformer(&self, transformer: &Transformer, config: &Config) -> Result<()> {
+		let transformer_rules = config.get_transformer_rules(&transformer.name, &self.lua)?;
+
+		Ok(transformer.function.call::<_, ()>(&(transformer_rules))?)
 	}
 }
 
@@ -62,19 +75,20 @@ mod tests {
 	}
 
 	#[test_matrix("blank")]
-	fn transformer(transformer: &'static str) {
+	fn transformer(name: &'static str) {
 		let runtime = Runtime::new().expect("could not create runtime");
 
 		let transformer_path = &project_root()
 			.join("tests/transformers")
-			.join(transformer.to_string() + ".luau");
+			.join(name.to_string() + ".luau");
+
+		let transformer = runtime.compile_transformer(&name.to_string(), transformer_path).expect("could not compile transformer");
 
 		runtime
 			.run_transformer(
-				&transformer.to_string(),
-				transformer_path,
+				&transformer,
 				&Config::default(),
 			)
-			.expect("could not load/run transformer");
+			.expect("could not execute transformer");
 	}
 }

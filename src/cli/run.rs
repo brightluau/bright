@@ -6,7 +6,7 @@ use owo_colors::{colors::BrightBlack, OwoColorize};
 
 use crate::{
 	config::Config,
-	runtime::Runtime,
+	runtime::{Runtime, Transformer},
 	symbols::{ERROR, IMPORTANT, SUCCESS, WARNING},
 };
 
@@ -26,8 +26,6 @@ pub struct Command {
 	#[arg(short, long, default_value = "output/")]
 	output: PathBuf,
 }
-
-struct Transformer(String, PathBuf);
 
 impl CliCommand for Command {
 	fn run(self, config: &Config) -> Result<ExitCode> {
@@ -56,16 +54,26 @@ impl CliCommand for Command {
 			return Ok(ExitCode::FAILURE);
 		}
 
+		// locate all transformers and compile them
+
 		let mut transformer_stack: Vec<Transformer> = vec![];
 
-		for transformer in transformers {
-			match find_transformer(transformer)? {
+		for transformer_name in transformers {
+			match find_transformer(transformer_name)? {
 				Some(path) => {
-					transformer_stack.push(Transformer(transformer.to_string(), path));
+					let transformer = match runtime.compile_transformer(transformer_name, &path) {
+						Ok(transformer) => transformer,
+						Err(e) => {
+							eprintln!("{} Could not compile transformer `{}`:\n{}", *ERROR, transformer_name, e);
+							return Ok(ExitCode::FAILURE);
+						},
+					};
+
+					transformer_stack.push(transformer);
 				},
 
 				None => {
-					eprintln!("{} Could not find transformer `{}`", *ERROR, transformer);
+					eprintln!("{} Could not find transformer `{}`", *ERROR, transformer_name);
 					return Ok(ExitCode::FAILURE);
 				},
 			}
@@ -73,14 +81,13 @@ impl CliCommand for Command {
 
 		for transformer in transformer_stack {
 			let result = runtime.run_transformer(
-				&transformer.0,
-				&transformer.1,
+				&transformer,
 				&config,
 			);
 
 			match result {
-				Ok(()) => println!("{} Transformer {} applied", *SUCCESS, transformer.0),
-				Err(e) => eprintln!("{} Transformer {} failed:\n{}", *ERROR, transformer.0, e),
+				Ok(()) => println!("{} Transformer `{}` applied", *SUCCESS, transformer.name),
+				Err(e) => eprintln!("{} Transformer `{}` failed:\n{}", *ERROR, transformer.name, e),
 			}
 		}
 
