@@ -9,7 +9,9 @@ use crate::symbols::{ERROR, SUCCESS};
 
 use super::CliCommand;
 
-static TYPEDEFS: Dir<'_> = include_dir!("types");
+// very confusingly, include_dir!() is based at the crate's project root, which is a behavior difference from
+// include_str!. *dizzy*
+static TYPEDEFS: Dir<'_> = include_dir!("./include/types");
 
 /// Installs the Luau type definitions and updates your settings files
 #[derive(Parser)]
@@ -35,8 +37,8 @@ impl CliCommand for Command {
 			Err(e) => {
 				eprintln!("{} Could not install typedefs: {}", *ERROR, e);
 				return Ok(ExitCode::FAILURE);
-			},
-			_ => {},
+			}
+			_ => {}
 		}
 
 		println!(

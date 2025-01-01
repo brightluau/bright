@@ -1,0 +1,12 @@
+source = "src/"
+output = "output/"
+
+# Transformers are applied in the order they are listed here.
+transformers = []
+
+# Transformers can accept a table of rules when they're executed, which can modify their behavior.
+#
+# N.B.: When running transformers from a file path, their rules will not apply unless this file includes a rule with that
+# path.
+[rules.example]
+some_option = true

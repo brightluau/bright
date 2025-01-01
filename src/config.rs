@@ -4,6 +4,9 @@ use mlua::{Lua, LuaSerdeExt};
 use serde::Deserialize;
 use toml::Table;
 
+pub const CONFIG_FILE_NAME: &str = "bright.toml";
+pub const CONFIG_DEFAULT_CONTENTS: &str = include_str!("../include/bright.toml");
+
 #[derive(Deserialize, Debug)]
 #[serde(default)]
 pub struct Config {
