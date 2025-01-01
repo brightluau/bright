@@ -182,10 +182,7 @@ impl CliCommand for Command {
 
 			match result {
 				Ok(()) => println!("{Success} Transformer `{}` applied", transformer.name),
-				Err(e) => eprintln!(
-					"{Error} Transformer `{}` failed:\n{}",
-					transformer.name, e
-				),
+				Err(e) => eprintln!("{Error} Transformer `{}` failed:\n{}", transformer.name, e),
 			}
 		}
 

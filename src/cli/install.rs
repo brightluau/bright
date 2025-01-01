@@ -82,7 +82,7 @@ fn install_typedefs() -> Result<()> {
 }
 
 fn typedefs_directory() -> PathBuf {
-	bright::directory!()
+	bright::directory()
 		.join("typedefs")
 		.join(bright::version())
 }
