@@ -29,7 +29,7 @@ impl Runtime {
 		Ok(Self { lua })
 	}
 
-	pub fn compile_transformer(&self, name: &String, path: &PathBuf) -> Result<Transformer> {
+	pub fn compile_transformer(&self, name: &str, path: &PathBuf) -> Result<Transformer> {
 		let contents = fs::read_to_string(&path).expect("transformer script does not exist");
 
 		let script = self
@@ -40,12 +40,10 @@ impl Runtime {
 		let function = script.eval::<Function>();
 
 		match function {
-			Ok(func) => {
-				Ok(Transformer {
-					name: name.to_string(),
-					function: func
-				})
-			}
+			Ok(func) => Ok(Transformer {
+				name: name.to_string(),
+				function: func,
+			}),
 
 			// handle conversion errors differently since it's not exactly clear when this fails
 			Err(mlua::Error::FromLuaConversionError { .. }) => {
@@ -82,13 +80,12 @@ mod tests {
 			.join("tests/transformers")
 			.join(name.to_string() + ".luau");
 
-		let transformer = runtime.compile_transformer(&name.to_string(), transformer_path).expect("could not compile transformer");
+		let transformer = runtime
+			.compile_transformer(&name.to_string(), transformer_path)
+			.expect("could not compile transformer");
 
 		runtime
-			.run_transformer(
-				&transformer,
-				&Config::default(),
-			)
+			.run_transformer(&transformer, &Config::default())
 			.expect("could not execute transformer");
 	}
 }

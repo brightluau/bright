@@ -24,7 +24,8 @@ impl Config {
 		let config = match fs::read_to_string("bright.toml") {
 			Ok(contents) => toml::from_str(&contents),
 			_ => Ok(Config::default()),
-		}.unwrap();
+		}
+		.unwrap();
 
 		INSTANCE.set(config).unwrap();
 
