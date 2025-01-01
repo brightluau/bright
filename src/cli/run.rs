@@ -1,12 +1,15 @@
-use std::{collections::HashMap, fs, path::PathBuf, process::ExitCode};
+use std::{collections::HashMap, fs, path::PathBuf};
 
+use anyhow::{bail, Context, Result};
 use clap::Parser;
-use color_eyre::Result;
 use full_moon::{
 	ast::Ast,
 	Error::{AstError, TokenizerError},
 };
-use owo_colors::{colors::BrightBlack, OwoColorize};
+use owo_colors::{
+	colors::{BrightBlack, Yellow},
+	OwoColorize,
+};
 use walkdir::WalkDir;
 
 use crate::{
@@ -44,14 +47,16 @@ impl Default for Command {
 }
 
 impl CliCommand for Command {
-	fn run(self) -> Result<ExitCode> {
+	fn run(self) -> Result<()> {
 		let config = Config::global();
 
 		match typedefs_need_update() {
 			Ok(true) => println!(
-				"{} Your typedefs need updating! Run `{} install` to update them.",
+				"{} Your typedefs need updating! Run `{}` to update them.",
 				*IMPORTANT,
-				clap::crate_name!()
+				format!("{} install", clap::crate_name!())
+					.fg::<Yellow>()
+					.bold()
 			),
 			Err(e) => eprintln!(
 				"{} Could not check if typedefs needed updating: {}",
@@ -61,12 +66,7 @@ impl CliCommand for Command {
 		};
 
 		if !self.input.try_exists()? {
-			eprintln!(
-				"{} Source path `{}` does not exist.",
-				*ERROR,
-				self.input.display()
-			);
-			return Ok(ExitCode::FAILURE);
+			bail!("Source path `{}` does not exist.", self.input.display())
 		}
 
 		let runtime = Runtime::new()?;
@@ -77,12 +77,12 @@ impl CliCommand for Command {
 		};
 
 		if transformers.is_empty() {
-			eprintln!(
-				"{} No transformers to run. {}",
-				*ERROR,
-				"(Have you configured any transformers in bright.toml?)".fg::<BrightBlack>()
-			);
-			return Ok(ExitCode::FAILURE);
+			bail!(
+				"No transformers to run. {}",
+				"Have you configured any transformers in bright.toml?"
+					.fg::<BrightBlack>()
+					.italic()
+			)
 		}
 
 		// locate all transformers and compile them
@@ -92,26 +92,17 @@ impl CliCommand for Command {
 		for transformer_name in transformers {
 			match find_transformer(transformer_name)? {
 				Some(path) => {
-					let transformer = match runtime.compile_transformer(transformer_name, &path) {
-						Ok(transformer) => transformer,
-						Err(e) => {
-							eprintln!(
-								"{} Could not compile transformer `{}`:\n{}",
-								*ERROR, transformer_name, e
-							);
-							return Ok(ExitCode::FAILURE);
-						}
-					};
+					let transformer = runtime
+						.compile_transformer(&transformer_name, &path)
+						.context(format!(
+							"Could not compile transformer `{transformer_name}`"
+						))?;
 
 					transformer_stack.push(transformer);
 				}
 
 				None => {
-					eprintln!(
-						"{} Could not find transformer `{}`",
-						*ERROR, transformer_name
-					);
-					return Ok(ExitCode::FAILURE);
+					bail!("Could not find transformer `{transformer_name}`")
 				}
 			}
 		}
@@ -129,16 +120,11 @@ impl CliCommand for Command {
 			let ast = match full_moon::parse(&source) {
 				Ok(ast) => ast,
 				Err(errors) => {
-					eprintln!("{} Failed to parse `{}`:", *ERROR, self.input.display());
-
-					for error in errors {
-						match error {
-							AstError(err) => eprintln!("{}", err),
-							TokenizerError(err) => eprintln!("{}", err),
-						}
-					}
-
-					return Ok(ExitCode::FAILURE);
+					bail!(
+						"Failed to parse `{}`:\n{}",
+						self.input.display(),
+						format_full_moon_errors(errors)
+					);
 				}
 			};
 
@@ -166,14 +152,14 @@ impl CliCommand for Command {
 				let ast = match full_moon::parse(&source) {
 					Ok(ast) => ast,
 					Err(errors) => {
-						eprintln!("{} Failed to parse `{}`:", *ERROR, path.path().display());
+						// don't end the whole operation if one source file doesn't parse, just skip it
 
-						for error in errors {
-							match error {
-								AstError(err) => eprintln!("{}", err),
-								TokenizerError(err) => eprintln!("{}", err),
-							}
-						}
+						eprintln!(
+							"{} Failed to parse `{}`:\n{}",
+							*ERROR,
+							path.path().display(),
+							format_full_moon_errors(errors)
+						);
 
 						continue;
 					}
@@ -184,12 +170,11 @@ impl CliCommand for Command {
 		}
 
 		if sources.len() == 0 {
-			eprintln!(
-				"{} No sources to transform. {}",
-				*ERROR,
-				"(Do you need to change your source directory? Set `source` in bright.toml or pass --input)".fg::<BrightBlack>()
-			);
-			return Ok(ExitCode::FAILURE);
+			bail!(
+				"No sources to transform. {}",
+				"Do you need to change your source directory? Set `source` in bright.toml or pass --input."
+					.fg::<BrightBlack>().italic()
+			)
 		}
 
 		// transform source code
@@ -218,7 +203,7 @@ impl CliCommand for Command {
 			fs::write(target, ast.to_string())?;
 		}
 
-		Ok(ExitCode::SUCCESS)
+		Ok(())
 	}
 }
 
@@ -264,4 +249,16 @@ fn find_transformer(name: &String) -> Result<Option<PathBuf>> {
 
 	// no idea what this is
 	Ok(None)
+}
+
+fn format_full_moon_errors(errors: Vec<full_moon::Error>) -> String {
+	errors
+		.iter()
+		.map(|error| match error {
+			AstError(e) => format!("{e}"),
+			TokenizerError(e) => format!("{e}"),
+		})
+		.fold(String::new(), |a, b| a + &b + "\n")
+		.trim()
+		.to_string()
 }

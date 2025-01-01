@@ -1,11 +1,11 @@
-use std::{fs, path::PathBuf, process::ExitCode};
+use std::{fs, path::PathBuf};
 
+use anyhow::{bail, Context, Result};
 use clap::Parser;
-use color_eyre::{eyre::Context, Result};
 use include_dir::{include_dir, Dir};
 use owo_colors::{colors::BrightBlack, OwoColorize};
 
-use crate::symbols::{ERROR, SUCCESS};
+use crate::symbols::SUCCESS;
 
 use super::CliCommand;
 
@@ -22,21 +22,22 @@ pub struct Command {
 }
 
 impl CliCommand for Command {
-	fn run(self) -> Result<ExitCode> {
+	fn run(self) -> Result<()> {
 		if !self.force && !typedefs_need_update()? {
 			println!(
 				"{} Your typedefs are up to date! {}",
 				*SUCCESS,
-				"(Want to reinstall them? Rerun with --force)".fg::<BrightBlack>()
+				"Want to reinstall them? Rerun with --force."
+					.fg::<BrightBlack>()
+					.italic()
 			);
 
-			return Ok(ExitCode::SUCCESS);
+			return Ok(());
 		}
 
 		match install_typedefs() {
 			Err(e) => {
-				eprintln!("{} Could not install typedefs: {}", *ERROR, e);
-				return Ok(ExitCode::FAILURE);
+				bail!("Could not install typedefs: {e}")
 			}
 			_ => {}
 		}
@@ -47,7 +48,7 @@ impl CliCommand for Command {
 			typedefs_directory().display()
 		);
 
-		Ok(ExitCode::SUCCESS)
+		Ok(())
 	}
 }
 
@@ -65,7 +66,7 @@ pub fn typedefs_need_update() -> Result<bool> {
 fn install_typedefs() -> Result<()> {
 	let directory = &typedefs_directory();
 
-	fs::create_dir_all(directory).context("could not create bright home directory")?;
+	fs::create_dir_all(directory).context("Could not create Bright home directory")?;
 
 	for entry in TYPEDEFS.entries() {
 		let file = entry.as_file().unwrap();
@@ -76,7 +77,7 @@ fn install_typedefs() -> Result<()> {
 			.to_string_lossy()
 			.to_string();
 
-		fs::write(directory.join(name), file.contents()).context("could not write typedef file")?;
+		fs::write(directory.join(name), file.contents()).context("Could not write typedef file")?;
 	}
 
 	Ok(())

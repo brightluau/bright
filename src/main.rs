@@ -1,7 +1,7 @@
-use std::process::ExitCode;
+use std::process::exit;
 
+use anyhow::Result;
 use clap::Parser;
-use color_eyre::Result;
 use config::Config;
 use symbols::ERROR;
 
@@ -20,15 +20,21 @@ struct Cli {
 	command: Option<Command>,
 }
 
-fn main() -> Result<ExitCode> {
-	color_eyre::install()?;
-
+fn main() -> Result<()> {
 	if let Err(e) = Config::load() {
-		eprintln!("{} Could not parse config:\n{}", *ERROR, e);
-		return Ok(ExitCode::FAILURE);
+		eprintln!("{} Could not parse config:\n{e}", *ERROR);
+		exit(1);
 	}
 
 	let cli = Cli::parse();
 
-	Ok(cli.command.unwrap_or_default().run()?)
+	match cli.command.unwrap_or_default().run() {
+		Err(e) => {
+			eprintln!("{} {e:?}", *ERROR);
+			exit(1);
+		}
+		_ => {}
+	};
+
+	Ok(())
 }

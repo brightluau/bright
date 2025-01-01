@@ -1,6 +1,6 @@
 use std::{fs, path::PathBuf};
 
-use color_eyre::{eyre::Report, Result};
+use anyhow::{bail, Result};
 use mlua::{prelude::*, Function, StdLib};
 
 use crate::config::Config;
@@ -30,7 +30,7 @@ impl Runtime {
 	}
 
 	pub fn compile_transformer(&self, name: &str, path: &PathBuf) -> Result<Transformer> {
-		let contents = fs::read_to_string(&path).expect("transformer script does not exist");
+		let contents = fs::read_to_string(&path).expect("Transformer script does not exist");
 
 		let script = self
 			.lua
@@ -47,11 +47,11 @@ impl Runtime {
 
 			// handle conversion errors differently since it's not exactly clear when this fails
 			Err(mlua::Error::FromLuaConversionError { .. }) => {
-				Err(Report::msg("script did not return function"))
+				bail!("Transformer did not return function")
 			}
 
-			// normal errors just get converted into eyre reports and passed up
-			Err(e) => Err(Report::new(e)),
+			// normal errors just get bailed
+			Err(e) => bail!(e),
 		}
 	}
 
