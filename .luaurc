@@ -5,7 +5,7 @@
 	},
 	"typeErrors": true,
 	"aliases": {
-		"bright": "./types",
+		"bright": "./include/types",
 		"lune": "~/.lune/.typedefs/0.8.9/"
 	}
 }
