@@ -6,12 +6,11 @@ edition = "2021"
 [dependencies]
 anyhow = "1.0.95"
 clap = { version = "4.5.23", features = ["cargo", "derive", "string"] }
+console = "0.15.10"
 directories = "5.0.1"
 full_moon = { version = "1.1.2", features = ["luau"] }
 include_dir = "0.7.4"
-lazy_static = "1.5.0"
 mlua = { version = "0.9.9", features = ["luau", "serialize"] }
-owo-colors = { version = "4.1.0", features = ["supports-colors"] }
 serde = { version = "1.0.217", features = ["derive"] }
 toml = "0.8.19"
 walkdir = "2.5.0"

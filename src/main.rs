@@ -3,12 +3,12 @@ use std::process::exit;
 use anyhow::Result;
 use clap::Parser;
 use config::Config;
-use symbols::Symbols::Error;
+use formatting::Symbols::Error;
 
 pub(crate) mod cli;
 pub(crate) mod config;
+pub(crate) mod formatting;
 pub(crate) mod runtime;
-pub(crate) mod symbols;
 
 use self::cli::Command;
 

@@ -2,20 +2,20 @@ use std::{collections::HashMap, fs, path::PathBuf};
 
 use anyhow::{bail, Context, Result};
 use clap::Parser;
+use console::style;
 use full_moon::{
 	ast::Ast,
 	Error::{AstError, TokenizerError},
-};
-use owo_colors::{
-	colors::{BrightBlack, Yellow},
-	OwoColorize,
 };
 use walkdir::WalkDir;
 
 use crate::{
 	config::Config,
+	formatting::{
+		hint,
+		Symbols::{Error, Important, Success, Warning},
+	},
 	runtime::{Runtime, Transformer},
-	symbols::Symbols::{Error, Important, Success, Warning},
 };
 
 use super::{install::typedefs_need_update, CliCommand};
@@ -53,14 +53,11 @@ impl CliCommand for Command {
 		match typedefs_need_update() {
 			Ok(true) => println!(
 				"{Important} Your typedefs need updating! Run `{}` to update them.",
-				format!("{} install", clap::crate_name!())
-					.fg::<Yellow>()
+				style(format!("{} install", clap::crate_name!()))
+					.yellow()
 					.bold()
 			),
-			Err(e) => eprintln!(
-				"{Warning} Could not check if typedefs needed updating: {}",
-				e
-			),
+			Err(e) => eprintln!("{Warning} Could not check if typedefs needed updating: {e}",),
 			_ => {}
 		};
 
@@ -78,9 +75,7 @@ impl CliCommand for Command {
 		if transformers.is_empty() {
 			bail!(
 				"No transformers to run. {}",
-				"Have you configured any transformers in bright.toml?"
-					.fg::<BrightBlack>()
-					.italic()
+				hint("Have you configured any transformers in bright.toml?")
 			)
 		}
 
@@ -170,8 +165,7 @@ impl CliCommand for Command {
 		if sources.len() == 0 {
 			bail!(
 				"No sources to transform. {}",
-				"Do you need to change your source directory? Set `source` in bright.toml or pass --input."
-					.fg::<BrightBlack>().italic()
+				hint("Do you need to change your source directory? Set `source` in bright.toml or pass --input.")
 			)
 		}
 
@@ -182,7 +176,7 @@ impl CliCommand for Command {
 
 			match result {
 				Ok(()) => println!("{Success} Transformer `{}` applied", transformer.name),
-				Err(e) => eprintln!("{Error} Transformer `{}` failed:\n{}", transformer.name, e),
+				Err(e) => eprintln!("{Error} Transformer `{}` failed:\n{e}", transformer.name),
 			}
 		}
 

@@ -3,9 +3,8 @@ use std::{fs, path::PathBuf};
 use anyhow::{bail, Context, Result};
 use clap::Parser;
 use include_dir::{include_dir, Dir};
-use owo_colors::{colors::BrightBlack, OwoColorize};
 
-use crate::symbols::Symbols::Success;
+use crate::formatting::{hint, Symbols::Success};
 
 use super::CliCommand;
 
@@ -26,9 +25,7 @@ impl CliCommand for Command {
 		if !self.force && !typedefs_need_update()? {
 			println!(
 				"{Success} Your typedefs are up to date! {}",
-				"Want to reinstall them? Rerun with --force."
-					.fg::<BrightBlack>()
-					.italic()
+				hint("Want to reinstall them? Rerun with --force.")
 			);
 
 			return Ok(());
@@ -82,7 +79,5 @@ fn install_typedefs() -> Result<()> {
 }
 
 fn typedefs_directory() -> PathBuf {
-	bright::directory()
-		.join("typedefs")
-		.join(bright::version())
+	bright::directory().join("typedefs").join(bright::version())
 }
