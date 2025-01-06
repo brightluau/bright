@@ -22,7 +22,7 @@ impl Globals {
 	}
 }
 
-pub fn inject_globals<'lua>(lua: &'lua Lua) -> LuaResult<()> {
+pub fn inject_globals(lua: &Lua) -> LuaResult<()> {
 	let global_table = lua.globals();
 
 	for global in Globals::ALL {

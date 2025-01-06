@@ -28,12 +28,9 @@ fn main() -> Result<()> {
 
 	let cli = Cli::parse();
 
-	match cli.command.unwrap_or_default().run() {
-		Err(e) => {
-			eprintln!("{Error} {e:?}");
-			exit(1);
-		}
-		_ => {}
+	if let Err(e) = cli.command.unwrap_or_default().run() {
+		eprintln!("{Error} {e:?}");
+		exit(1);
 	};
 
 	Ok(())

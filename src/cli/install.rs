@@ -31,11 +31,8 @@ impl CliCommand for Command {
 			return Ok(());
 		}
 
-		match install_typedefs() {
-			Err(e) => {
-				bail!("Could not install typedefs: {e}")
-			}
-			_ => {}
+		if let Err(e) = install_typedefs() {
+			bail!("Could not install typedefs: {e}")
 		}
 
 		println!(

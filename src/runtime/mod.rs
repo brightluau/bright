@@ -30,7 +30,7 @@ impl Runtime {
 	}
 
 	pub fn compile_transformer(&self, name: &str, path: &PathBuf) -> Result<Transformer> {
-		let contents = fs::read_to_string(&path).expect("Transformer script does not exist");
+		let contents = fs::read_to_string(path).expect("Transformer script does not exist");
 
 		let script = self
 			.lua
@@ -81,7 +81,7 @@ mod tests {
 			.join(name.to_string() + ".luau");
 
 		let transformer = runtime
-			.compile_transformer(&name.to_string(), transformer_path)
+			.compile_transformer(name, transformer_path)
 			.expect("could not compile transformer");
 
 		runtime
