@@ -51,6 +51,8 @@ jobs:
         run: sudo apt-get install pngquant
 
       - name: Install mkdocs and friends
+        env:
+          MKDOCS_INSIDERS_TOKEN: ${{ secrets.MKDOCS_INSIDERS_TOKEN }}
         run: |
           python -m pip install git+https://${MKDOCS_INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git \
           mkdocs-git-revision-date-localized-plugin mkdocs-git-committers-plugin-2 pymdown-extensions Pygments
