@@ -6,6 +6,13 @@ definitions:
       {{ page.meta.get("title", page.title) }}
     {%- endif -%}
 
+  - &twitter_page_title >-
+    {%- if layout.title -%}
+      {{ layout.title }}
+    {%- else -%}
+      {{ page.meta.get("title", page.title) }}
+    {%- endif %} - {{ config.site_name }}
+
   - &page_description >-
     {%- if layout.description -%}
       {{ layout.description }}
@@ -59,4 +66,19 @@ layers:
         {%- if page.meta.tags -%}
           {{ page.meta.tags | join(", ") }}
         {%- endif -%}
-      
+
+tags:
+  og:type: website
+  og:site_name: Bright
+  og:title: *page_title
+  og:description: *page_description
+  og:image: "{{ image.url }}"
+  og:image:type: "{{ image.type }}"
+  og:image:width: "{{ image.width }}"
+  og:image:height: "{{ image.height }}"
+  og:url: "{{ page.canonical_url }}"
+
+  twitter:card: summary_large_image
+  twitter:title: *twitter_page_title
+  twitter:description: *page_description
+  twitter:image: "{{ image.url }}"
