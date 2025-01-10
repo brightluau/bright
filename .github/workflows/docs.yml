@@ -16,7 +16,8 @@ jobs:
   Build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
           # we only want to clone the documentation here
           sparse-checkout: |
@@ -28,19 +29,23 @@ jobs:
           # and we want to get all history for the docs
           fetch-depth: 0
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: 3.x
 
+      - name: Create cache key
+        run: echo "cache_id=$(date --utc '+%V')" >> $GITHUB_ENV
+
       - uses: actions/cache@v4
         with:
-          key: mkdocs-material-
+          key: mkdocs-material-${{ env.cache_id }}
           path: .cache
           restore-keys: |
             mkdocs-material-
 
       - name: Install system dependencies
-        run: apt-get install pngquant
+        run: sudo apt-get install pngquant
 
       - name: Install mkdocs and friends
         run: |
