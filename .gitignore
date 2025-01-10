@@ -2,3 +2,6 @@
 
 # bright output
 /output
+
+# mkdocs-material cache
+/.cache

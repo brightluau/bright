@@ -39,8 +39,12 @@ theme:
   features:
     - navigation.instant
     - navigation.instant.progress
+    - navigation.instant.prefetch
+    - navigation.instant.preview
 
     - navigation.tabs
+
+    - navigation.path
 
     - navigation.top
 
@@ -59,7 +63,11 @@ theme:
     - content.action.edit
     - content.action.view
 
+    - content.code.copy
     - content.code.annotate
+    - content.code.select
+
+    - content.footnote.tooltips
 
   icon:
     repo: fontawesome/brands/github
@@ -115,9 +123,6 @@ plugins:
   - privacy:
       enabled: !ENV [CI, false] # disabled since external assets should only be downloaded at buildtime
 
-  - social:
-      enabled: !ENV [CI, false] # disabled since imaging requires installing cairo
-
   - git-revision-date-localized:
       enabled: !ENV [CI, false] # calculating git revisions on a local devbuild of the docs is useless
       enable_creation_date: true
@@ -127,6 +132,15 @@ plugins:
       repository: brightluau/bright
       branch: master
       token: !ENV [GITHUB_TOKEN]
+
+  - typeset
+  - optimize
+  - social:
+      enabled: !ENV [CI, TEST, false] # only should be built in CI or when testing locally
+      debug: false # doesn't apply to builds, only in testing
+
+      cards_layout_dir: docs/layouts/
+      cards_layout: social_card
 
 nav:
   - Home: index.md
