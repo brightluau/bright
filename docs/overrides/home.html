@@ -1,0 +1,70 @@
+{# inspired by mkdocs material's homepage #}
+
+{% extends "main.html" %}
+
+{% block tabs %}
+{{ super() }}
+<style>
+	.md-sidebar--primary {
+		display: none;
+	}
+
+	.md-sidebar--secondary {
+		display: none;
+	}
+
+	.mdx-hero {
+		display: flex;
+		position: relative;
+		flex-direction: column;
+
+		text-align: center;
+
+		height: calc(100vh - 4.8rem);
+
+		margin: 0 1.2rem .8rem 1.2rem;
+	}
+
+	.mdx-hero__inner {
+		display: block;
+		flex-grow: 1;
+	}
+
+	.mdx-hero__inner h1 {
+		margin: 0;
+	}
+
+	.mdx-hero__image {
+		height: 50% !important;
+	}
+
+	.mdx-hero__more {
+		font-size: 80%;
+		opacity: 0.6;
+	}
+</style>
+<section>
+	<div class="md-grid md-typeset">
+		<div class="mdx-hero">
+			<div class="mdx-hero__inner">
+				<img src="assets/images/hero.svg" class="mdx-hero__image">
+				<h1>Say hello to Bright!</h1>
+				<p>{{ config.site_description }} It's warm and fuzzy, too!</p>
+				<a href="{{ page.next_page.url | url }}"
+				   title="{{ page.next_page.title | e }}"
+				   class="md-button md-button--primary">
+					Get started
+				</a>
+				<div class="mdx-hero__more">
+					<p>Psst! There's more, keep scrolling...</p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+{% endblock %}
+
+{% block content %}
+<h1>What does Bright do?</h1>
+<p>Stuff!</p>
+{% endblock %}

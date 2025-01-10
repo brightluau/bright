@@ -1,0 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:wght@400..900&display=swap');
+
+:root {
+	--md-primary-fg-color: #F6BC00;
+	--md-accent-fg-color: #F3B94D;
+
+	--md-primary-fg-color--light: #F6BC00;
+	--md-primary-fg-color--dark: #F6BC00;
+}
+
+:root, [data-md-color-scheme=default] {
+	--md-default-fg-color: #000 !important;
+}
+
+[data-md-color-scheme=slate] {
+	--md-default-fg-color: #fff !important;
+}
+
+.md-header__topic {
+	font-family: "Alegreya", serif;
+}
+
+.md-header__topic+.md-header__topic {
+	font-weight: 600;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	font-family: "Alegreya", serif;
+
+	color: var(--md-default-fg-color) !important;
+}
+
+.md-header, .md-tabs {
+	color: var(--md-default-fg-color);
+	background-color: initial;
+	backdrop-filter: blur(1rem);
+}

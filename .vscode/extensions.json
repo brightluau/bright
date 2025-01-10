@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+		"editorconfig.editorconfig",
+        "rust-lang.rust-analyzer",
+        "johnnymorganz.luau-lsp",
+        "kampfkarren.selene-vscode",
+        "johnnymorganz.stylua",
+        "redhat.vscode-yaml"
+    ]
+}
