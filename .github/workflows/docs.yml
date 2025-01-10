@@ -48,7 +48,7 @@ jobs:
           mkdocs-git-committers-plugin-2 pymdown-extensions Pygments
 
       - name: Build
-        uses: python -m mkdocs build
+        run: python -m mkdocs build
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
