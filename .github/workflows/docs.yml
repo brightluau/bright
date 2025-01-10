@@ -4,6 +4,10 @@ on:
   push:
     branches:
       - master
+    paths:
+      - mkdocs.yml
+      - docs/
+      - .github/workflows/docs.yml
 
   workflow_dispatch:
 
@@ -22,7 +26,6 @@ jobs:
           # we only want to clone the documentation here
           sparse-checkout: |
             docs/
-            overrides/
             mkdocs.yml
           sparse-checkout-cone-mode: false
 
