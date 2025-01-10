@@ -3,6 +3,7 @@ site_description: >-
   A scriptable tool for transforming and transpiling Luau code.
 site_url: https://brightluau.dev/
 
+repo_name: brightluau/bright
 repo_url: https://github.com/brightluau/bright
 
 edit_uri: edit/master/docs/
@@ -12,7 +13,7 @@ theme:
   custom_dir: docs/overrides/
 
   logo: assets/images/logo.svg
-  favicon: assets/images/favicon.png
+  favicon: assets/images/favicon.svg
 
   palette:
     - media: "(prefers-color-scheme)"
