@@ -54,10 +54,12 @@ jobs:
         env:
           MKDOCS_INSIDERS_TOKEN: ${{ secrets.MKDOCS_INSIDERS_TOKEN }}
         run: |
-          python -m pip install "mkdocs-insiders[imaging] @ git+https://${MKDOCS_INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git" \
+          python -m pip install "mkdocs-material[imaging] @ git+https://${MKDOCS_INSIDERS_TOKEN}@github.com/squidfunk/mkdocs-material-insiders.git" \
           mkdocs-git-revision-date-localized-plugin mkdocs-git-committers-plugin-2 pymdown-extensions Pygments
 
       - name: Build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python -m mkdocs build
 
       - name: Upload Artifact
