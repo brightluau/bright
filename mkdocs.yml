@@ -136,7 +136,7 @@ plugins:
   - typeset
   - optimize
   - social:
-      enabled: !ENV [CI, TEST, false] # only should be built in CI or when testing locally
+      enabled: !ENV [CI, false] # only should be built in CI
       debug: false # doesn't apply to builds, only in testing
 
       cards_layout_dir: docs/layouts/
