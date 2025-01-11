@@ -1,3 +1,7 @@
+---
+description: The black magic of writing transformers, all in one place!
+---
+
 # Transformonomicon
 
 --8<-- "./docs/includes/snippets.md:construction"
