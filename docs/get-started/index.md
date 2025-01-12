@@ -18,5 +18,5 @@ If you are already using Rokit in your project, simply run `rokit add brightluau
 
 ## Now what?
 
-Now that you're set up, check out how to [initialize your project](./user-guide/initializing-a-project.md) to start
+Now that you're set up, check out how to [initialize your project](../user-guide/initializing-a-project.md) to start
 transforming your codebase into a better tomorrow. Or perhaps it's irredeemable, I don't know.

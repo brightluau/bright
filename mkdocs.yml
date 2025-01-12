@@ -74,6 +74,9 @@ theme:
     repo: fontawesome/brands/github
     tag:
       yields: material/clock
+      experimental: material/flask
+      unstable: material/fire-alert
+      internal: material/eye-off
 
 extra_css:
   - stylesheets/extra.css
@@ -97,6 +100,8 @@ extra:
 
   tags:
     Yields: yields
+    Experimental: experimental
+    Internal: internal
 
 copyright: >-
   <a href="#__consent">Change cookie settings</a>
@@ -132,7 +137,10 @@ markdown_extensions:
 plugins:
   - search
   - tags:
-      listings_toc: true
+      tags_allowed:
+        - Yields
+        - Experimental
+        - Internal
 
   - privacy:
       enabled: !ENV [CI, false] # disabled since external assets should only be downloaded at buildtime
@@ -166,16 +174,26 @@ nav:
   - Home: index.md
   - Get Started:
     - get-started/index.md
-    - Badges: badges.md
+    - badges.md
+    - changelog.md
   - User Guide:
-    - Initializing a Project: user-guide/initializing-a-project.md
-  - Rules:
-    - rules/index.md
-    - Community Rules: rules/community.md
+    - user-guide/initializing-a-project.md
+  - Transformers:
+    - transformers/index.md
+    - transformers/community.md
   - Developer Guide:
     - developer-guide/index.md
     - Poke:
       - developer-guide/poke/index.md
-      - Why Poke?: developer-guide/poke/why.md
+      - developer-guide/poke/why.md
     - Transformonomicon:
       - developer-guide/transformonomicon/index.md
+      - Tutorials:
+          - developer-guide/transformonomicon/tutorials/transformer-basics.md
+      - developer-guide/transformonomicon/configuration.md
+  - API:
+      - api/index.md
+      - Standard Library:
+          - api/std/Config.md
+          - api/std/registerTransformer.md
+          - api/std/_getTransformers.md

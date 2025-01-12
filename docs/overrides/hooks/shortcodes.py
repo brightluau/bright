@@ -61,7 +61,8 @@ def _badge_for_version(text: str, page: Page, files: Files):
 	# Return badge
 	icon = "material-tag-outline"
 	href = _resolve_path("badges.md#version", page, files)
+	changelog = _resolve_path("changelog.md#" + spec, page, files)
 	return _badge(
 		icon = f"[:{icon}:]({href} 'Minimum version')",
-		text = f"{text}" if spec else ""
+		text = f"[{text}]({changelog})" if spec else ""
 	)
