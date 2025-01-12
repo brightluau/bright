@@ -15,4 +15,4 @@ description: The black magic of writing transformers, all in one place!
     that you have, and will probably be even more confusing without it.
 
 Since this book is still being written, there's not really much to talk about on its cover page Instead, you should check
-out the first tutorial, [Transformer Basics](./tutorials/transformer-basics.md)!
+out the first tutorial, [Transformer Basics](../tutorials/transformer-basics.md)!

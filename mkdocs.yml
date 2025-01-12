@@ -189,7 +189,7 @@ nav:
     - Transformonomicon:
       - developer-guide/transformonomicon/index.md
       - Tutorials:
-          - developer-guide/transformonomicon/tutorials/transformer-basics.md
+          - developer-guide/tutorials/transformer-basics.md
       - developer-guide/transformonomicon/configuration.md
   - API:
       - api/index.md

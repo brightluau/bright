@@ -27,14 +27,14 @@ end
 ```
 
 1.  Bright's libraries are commonly aliased to `@bright/` for convenience and cross-compatibility (and this is recommended),
-    but your project doesn't necessarily need to be set up this way. All libraries are accessible through a root import
-	if necessary, so `#!luau require("path/to/bright").std` works as well. The CLI automatically generates a `.luaurc`
-	file for this support if you're using [pesde](https://pesde.dev/).
+    but your project doesn't necessarily need to be set up this way. The CLI automatically generates a `.luaurc` file for
+	this support if you're using [pesde](https://pesde.dev/). All libraries are accessible through a root import if
+	necessary, so `#!luau require("path/to/bright").std` works as well.
 
 This is the simplest possible transformer: a no-op. We'll add more to this later, of course, but for now let's break down
 what's going on.
 
-`bright.Cst` is a re-export of [Poke](../../poke/index.md)'s `Cst` type. A CST is like an AST, except that it includes extra
+`bright.Cst` is a re-export of [Poke](../poke/index.md)'s `Cst` type. A CST is like an AST, except that it includes extra
 information about spacing and comments, referred to as trivia. The Poke documentation contains more information about them,
 as well as the API for how you can manipulate them.
 
@@ -68,7 +68,7 @@ local config = {
 
 This object defines that we have `some_option`, with a default value of `true`, and a description of... nothing of substance,
 but it does have one. By itself, this is all Bright needs at runtime to automatically generate a configuration object to
-pass to your transformer function, but the type system needs a little help. This is where [`bright.Config`](../../../api/std/Config.md)
+pass to your transformer function, but the type system needs a little help. This is where [`bright.Config`](../../api/std/Config.md)
 comes in:
 
 ```luau
@@ -106,13 +106,13 @@ local function transformer(cst: bright.Cst, config: Config): bright.Cst
 end
 ```
 
-There are some quirks with how configuration works, so it is advisable to read [Configuration](../configuration.md) as you
+There are some quirks with how configuration works, so it is advisable to read [Configuration](../transformonomicon/configuration.md) as you
 develop your transformers.
 
 ## Registration
 
 For Bright to detect your transformer, you need to register it. This is accomplished with
-[`bright.registerTransformer`](../../../api/std/registerTransformer.md). It takes three arguments: the transformer's name,
+[`bright.registerTransformer`](../../api/std/registerTransformer.md). It takes three arguments: the transformer's name,
 the configuration object, and the transformer function.
 
 ```luau title="bright/transformers/someTransformer.luau"
