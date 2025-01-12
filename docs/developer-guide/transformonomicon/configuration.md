@@ -8,7 +8,7 @@ start. For transformers that inject new nodes into the CST, it is advisable that
 
 ## Setup
 
-As written in [Your First Transformer](./your-first-transformer.md#defining-configuration), a configuration is defined
+As written in [Your First Transformer](./tutorials/transformer-basics.md#defining-configuration), a configuration is defined
 like so:
 
 ```luau
