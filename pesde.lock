@@ -1,0 +1,3 @@
+name = "brightluau/bright"
+version = "0.1.0"
+target = "lune"

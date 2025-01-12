@@ -5,7 +5,9 @@
 	},
 	"typeErrors": true,
 	"aliases": {
-		"bright": "./include/types",
-		"lune": "~/.lune/.typedefs/0.8.9/"
+		"lib": "./src/lib",
+		"cli": "./src/cli",
+		"vendor": "./src/vendor",
+		"lune": "./lune/.typedefs"
 	}
 }

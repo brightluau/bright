@@ -1,1 +1,28 @@
 std = "luau"
+
+exclude = [
+	"lune/.typedefs/*"
+]
+
+[lints]
+# Unscoped variables can cause code issues, so they should cause a linter error rather than a warning.
+unscoped_variables = "deny"
+
+# We really shouldn't be using _G/shared, it's horrible practice.
+global_usage = "deny"
+
+# "Must use" functions like the ones in the bit32 library are pure and must have their return value used, otherwise the
+# call to them is a waste of computation.
+must_use = "deny"
+
+# We shouldn't be using deprecated code. We can explicitly allow such usage on a case-by-case basis if necessary, but
+# unmarked usage should be a linter failure.
+deprecated = "deny"
+
+# Whilst one line statements are *usually* okay, StyLua gets a bit upset with them and it has no configuration for
+# "please allow these types" like Selene does, so we'll just ban them all.
+multiple_statements = "deny"
+
+[config]
+# Same justification as above.
+multiple_statements = { one_line_if = "deny" }

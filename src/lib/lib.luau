@@ -1,0 +1,3 @@
+return {
+	std = require("./std"),
+}

@@ -1,0 +1,22 @@
+name = "brightluau/bright"
+version = "0.1.0"
+description = "A scriptable tool for transforming and transpiling Luau code"
+authors = ["lewisakura <lewi@lewisakura.moe> (https://lewisakura.moe)"]
+repository = "https://github.com/brightluau/bright"
+license = "MIT"
+
+includes = [
+	"src",
+	"LICENSE",
+	"pesde.toml",
+	"README.md",
+	".luaurc"
+]
+
+[target]
+environment = "lune"
+bin = "./src/bin/main.luau"
+lib = "./src/lib/lib.luau"
+
+[indices]
+default = "https://github.com/pesde-pkg/index"
