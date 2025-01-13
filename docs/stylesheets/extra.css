@@ -47,6 +47,10 @@ h6 {
 	backdrop-filter: blur(1rem);
 }
 
+.md-search__form:hover {
+	background-color: #00000020;
+}
+
 /* dragons admonition */
 
 :root {
