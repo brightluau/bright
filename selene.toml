@@ -1,7 +1,9 @@
 std = "luau"
 
 exclude = [
-	"lune/.typedefs/*"
+	"lune/.typedefs/*",
+	"src/vendor/*",
+	"tests/cases/jecs.luau"
 ]
 
 [lints]
