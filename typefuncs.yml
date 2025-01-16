@@ -1,0 +1,12 @@
+# this stdlib is to be removed when selene supports typefuncs properly, this is just a quick fix
+
+---
+globals:
+  types.newtable:
+    args: []
+    must_use: true
+  types.singleton:
+    args:
+      - type: string
+        required: true
+    must_use: true

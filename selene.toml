@@ -1,8 +1,8 @@
-std = "luau"
+std = "luau+typefuncs"
 
 exclude = [
 	"lune/.typedefs/*",
-	"src/vendor/*",
+	"vendor/*",
 	"tests/cases/jecs.luau"
 ]
 

@@ -12,5 +12,9 @@
 		"tag:yaml.org,2002:python/object/apply:pymdownx.slugs.slugify mapping"
 	],
 	"stylua.targetReleaseVersion": "latest",
-	"luau-lsp.sourcemap.enabled": false
+	"luau-lsp.sourcemap.enabled": false,
+
+	"[luau]": {
+		"editor.defaultFormatter": "JohnnyMorganz.stylua"
+	},
 }

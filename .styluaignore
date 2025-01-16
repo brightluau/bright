@@ -1,0 +1,3 @@
+lune/.typedefs/*
+vendor/
+tests/cases/jecs.luau
