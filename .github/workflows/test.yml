@@ -1,19 +1,16 @@
 name: Test
 
-definitions:
-  paths: &paths
-    - src/**/*
-    - tests/**/*
-    - include/**/*
-    - pesde.toml
-    - pesde.lock
-    - .github/workflows/test.yml
-
 on:
   push:
     branches:
       - master
-    paths: *paths
+    paths: &paths
+      - src/**/*
+      - tests/**/*
+      - include/**/*
+      - pesde.toml
+      - pesde.lock
+      - .github/workflows/test.yml
 
   pull_request:
     paths: *paths
