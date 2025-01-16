@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - master
-    paths: &paths
+    paths:
       - src/**/*
       - tests/**/*
       - include/**/*
@@ -13,7 +13,13 @@ on:
       - .github/workflows/test.yml
 
   pull_request:
-    paths: *paths
+    paths:
+      - src/**/*
+      - tests/**/*
+      - include/**/*
+      - pesde.toml
+      - pesde.lock
+      - .github/workflows/test.yml
 
   workflow_dispatch:
 
