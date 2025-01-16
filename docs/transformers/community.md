@@ -1,6 +1,6 @@
 # Community Transformers
 
---8<-- "./docs/includes/snippets.md:construction"
+<!-- b:construction -->
 
 ## Some rule
 <!-- b:version 1.2.3 -->

@@ -4,7 +4,7 @@ description: If you want to start flying close to the sun, you have to learn how
 
 # Get Started
 
---8<-- "./docs/includes/snippets.md:construction"
+<!-- b:construction -->
 
 Bright seems like your cup of tea? Try it out the instructions below!
 

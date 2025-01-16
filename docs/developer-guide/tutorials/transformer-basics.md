@@ -4,7 +4,7 @@ description: Transformer development starts somewhere, and in this case at least
 
 # Transformer Basics
 
---8<-- "./docs/includes/snippets.md:construction"
+<!-- b:construction -->
 
 !!! abstract
 

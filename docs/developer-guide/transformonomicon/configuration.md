@@ -1,6 +1,6 @@
 # Configuration
 
---8<-- "./docs/includes/snippets.md:construction"
+<!-- b:construction -->
 
 Transformers can register a configuration definition for Bright to provide custom rules in its configuration file. These
 allow a user to specify how a transformer should act, such as appending a comment to the end of a file rather than the

@@ -1,6 +1,6 @@
 # Poke
 
---8<-- "./docs/includes/snippets.md:construction"
+<!-- b:construction -->
 
 Poke (/ˈpoʊkeɪ/, like the Poké in Pokémon) is the library Bright is built upon to parse and manipulate Luau AST/CSTs.
 

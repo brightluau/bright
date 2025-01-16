@@ -6,6 +6,8 @@ import re
 from mkdocs.config.defaults import MkDocsConfig
 from mkdocs.structure.files import File, Files
 from mkdocs.structure.pages import Page
+
+from textwrap import dedent
 from re import Match
 
 def on_page_markdown(
@@ -16,14 +18,16 @@ def on_page_markdown(
 		type, args = match.groups()
 		args = args.strip()
 
-		if type == "version": return _badge_for_version(args, page, files)
+		if type == "version":        return _badge_for_version(args, page, files)
+		elif type == "construction": return _under_construction()
+		elif type == "bright-dev":   return _guide_for_bright_dev(page, files)
 
 		# Otherwise, raise an error
 		raise RuntimeError(f"Unknown shortcode: {type}")
 
 	# Find and replace all external asset URLs in current page
 	return re.sub(
-		r"<!-- b:(\w+)(.*?) -->",
+		r"<!-- b:([\w-]+)(.*?) -->",
 		replace, markdown, flags = re.I | re.M
 	)
 
@@ -66,3 +70,24 @@ def _badge_for_version(text: str, page: Page, files: Files):
 		icon = f"[:{icon}:]({href} 'Minimum version')",
 		text = f"[{text}]({changelog})" if spec else ""
 	)
+
+# -----------------------------------------------------------------------------
+
+# Under construction admonition
+def _under_construction():
+	return dedent("""
+	!!! workshop "Under construction"
+
+		This part of the documentation is currently under construction. Many things will be missing or incomplete, or
+		even outright wrong.
+	""")
+
+def _guide_for_bright_dev(page: Page, files: Files):
+	href = _resolve_path("developer-guide/index.md", page, files)
+
+	return dedent(f"""
+	!!! info
+
+		This part of the documentation is for the development of Bright itself. If this is not what you are looking for,
+		go to the [developer guide index]({href}) to find the correct information.
+	""")

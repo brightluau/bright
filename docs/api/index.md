@@ -1,6 +1,6 @@
 # API Documentation
 
---8<-- "./docs/includes/snippets.md:construction"
+<!-- b:construction -->
 
 The documentation on this part of the site pertains to the API of Bright and Poke. It is hand-written (for now), however
 it is kept up to date and tags are added appropriately.

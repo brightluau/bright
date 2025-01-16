@@ -1,6 +1,6 @@
 # Development and You
 
---8<-- "./docs/includes/snippets.md:construction"
+<!-- b:construction -->
 
 So you've installed Bright, tinkered with a few things, decided it wasn't enough and thought "I've got too much time to
 kill"? Well, you're in the right place, and I wish you good health from this point forward.
@@ -46,5 +46,7 @@ pieces that you should read.
 </div>
 
 ## Bright Development
+
 If you're one of the few people that actually wants to use Bright's API or even contribute to the CLI, then first off,
-wow, and second, you're also in the right place.
+wow, and second, you're also in the right place. Head over to the [Bright](./bright/index.md) part of the developer
+guide to find out more.

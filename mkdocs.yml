@@ -191,6 +191,8 @@ nav:
       - Tutorials:
           - developer-guide/tutorials/transformer-basics.md
       - developer-guide/transformonomicon/configuration.md
+    - Bright:
+      - developer-guide/bright/index.md
   - API:
       - api/index.md
       - Standard Library:

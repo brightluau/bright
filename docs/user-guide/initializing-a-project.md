@@ -4,7 +4,7 @@ description: Set your project up with Bright.
 
 # Initializing a Project
 
---8<-- "./docs/includes/snippets.md:construction"
+<!-- b:construction -->
 
 To get Bright set up on a project, run `bright init`. This will set up a `bright/` directory and add a `bright.toml` file
 with a basic configuration. Notably, you will have no rules at this point, which is where you have to pick a path.
