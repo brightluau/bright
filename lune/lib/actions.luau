@@ -44,5 +44,5 @@ return {
 	debug = debug,
 	notice = notice,
 	warning = warning,
-	error = error
+	error = error,
 }

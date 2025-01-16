@@ -7,7 +7,9 @@
 	"aliases": {
 		"lib": "./src/lib",
 		"cli": "./src/cli",
-		"vendor": "./src/vendor",
-		"lune": "./lune/.typedefs"
+		"vendor": "./vendor",
+
+		"lune": "./lune/.typedefs",
+		"lune-lib": "./lune/lib"
 	}
 }
