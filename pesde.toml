@@ -3,7 +3,7 @@ version = "0.1.0"
 description = "A scriptable tool for transforming and transpiling Luau code"
 authors = ["lewisakura <lewi@lewisakura.moe> (https://lewisakura.moe)"]
 repository = "https://github.com/brightluau/bright"
-license = "MIT"
+license = "MPL-2.0"
 
 includes = [
 	"src",
