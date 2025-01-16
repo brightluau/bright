@@ -1,0 +1,35 @@
+name: Test
+
+definitions:
+  paths: &paths
+    - src/**/*
+    - tests/**/*
+    - include/**/*
+    - pesde.toml
+    - pesde.lock
+    - .github/workflows/test.yml
+
+on:
+  push:
+    branches:
+      - master
+    paths: *paths
+
+  pull_request:
+    paths: *paths
+
+  workflow_dispatch:
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Rokit
+        uses: CompeyDev/setup-rokit@v0.1.2
+
+      - name: Run Tests
+        run: lune run tests
