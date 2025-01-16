@@ -9,7 +9,9 @@ on:
       - docs/**/*
       - .github/workflows/docs.yml
 
+  pull_request:
   workflow_dispatch:
+  merge_group:
 
 permissions:
   contents: read
@@ -63,11 +65,14 @@ jobs:
         run: python -m mkdocs build
 
       - name: Upload Artifact
+        if: ${{ github.repository == 'brightluau/bright' }}
         uses: actions/upload-pages-artifact@v3
         with:
           path: site/
 
   Deploy:
+    if: ${{ github.repository == 'brightluau/bright' }}
+
     environment:
       name: docs
       url: ${{ steps.deployment.outputs.page_url }}

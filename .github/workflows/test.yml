@@ -13,14 +13,6 @@ on:
       - .github/workflows/test.yml
 
   pull_request:
-    paths:
-      - src/**/*
-      - tests/**/*
-      - include/**/*
-      - pesde.toml
-      - pesde.lock
-      - .github/workflows/test.yml
-
   workflow_dispatch:
   merge_group:
 
@@ -35,5 +27,15 @@ jobs:
       - name: Setup Rokit
         uses: CompeyDev/setup-rokit@v0.1.2
 
+      - name: Lint
+        run: selene --color always --allow-warnings src/
+
+      # regarding if: always(), these should always run regardless of previous failures
+
+      - name: Style Check
+        if: always()
+        run: stylua --color always -c .
+
       - name: Run Tests
+        if: always()
         run: lune run tests
