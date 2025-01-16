@@ -22,6 +22,7 @@ on:
       - .github/workflows/test.yml
 
   workflow_dispatch:
+  merge_group:
 
 jobs:
   Test:
