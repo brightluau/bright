@@ -40,8 +40,8 @@ pieces that you should read.
 
 	***
 
-	The transformonomicon contains all of the information for writing transformers, from how Bright calls your
-	code to how to make your transformers customizable.
+	The transformonomicon contains all of the information for writing transformers, from how Bright calls your code to
+	how to make your transformers customizable.
 
 </div>
 

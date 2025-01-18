@@ -76,10 +76,7 @@ def _badge_for_version(text: str, page: Page, files: Files):
 # Under construction admonition
 def _under_construction():
 	return dedent("""
-	!!! workshop "Under construction"
-
-		This part of the documentation is currently under construction. Many things will be missing or incomplete, or
-		even outright wrong.
+	!!! workshop "This part of the documentation is currently under construction."
 	""")
 
 def _guide_for_bright_dev(page: Page, files: Files):
