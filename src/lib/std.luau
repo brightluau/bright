@@ -15,7 +15,11 @@ export type Config<C> = types.Config<C>
 --- @param runner TransformerFunction -- The transformer itself.
 ---
 --- @returns Transformer -- A transformer definition.
-local function defineTransformer<C>(name: string, config: C, runner: types.TransformerFunction<types.Config<C>>): types.Transformer<C>
+local function defineTransformer<C>(
+	name: string,
+	config: C,
+	runner: types.TransformerFunction<types.Config<C>>
+): types.Transformer<C>
 	return {
 		name = name,
 		config = config,
