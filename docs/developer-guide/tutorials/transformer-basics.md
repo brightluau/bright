@@ -111,19 +111,22 @@ develop your transformers.
 
 ## Registration
 
-For Bright to detect your transformer, you need to register it. This is accomplished with
-[`bright.registerTransformer`](../../api/std/registerTransformer.md). It takes three arguments: the transformer's name,
-the configuration object, and the transformer function.
+For Bright to detect your transformer, you need to define and return it from this file. This is accomplished with
+[`bright.defineTransformer`](../../api/std/defineTransformer.md). It takes three arguments: the transformer's name,
+the configuration object, and the transformer function. At the end of your file, add this:
 
 ```luau title="bright/transformers/someTransformer.luau"
-bright.registerTransformer("some-transformer", config, transformer)
+return {
+	bright.defineTransformer("some-transformer", config, transformer),
+}
 ```
 
 That's it! Your transformer is now ready for use!
 
 !!! tip
-	Because `registerTransformer` takes a name, you can register a transformer under a different name compared to its
-	file name, or you can even register multiple transformers per file if necessary (or you want a common set of transformers).
+	Because `defineTransformer` takes a name, you can register a transformer under a different name compared to its
+	file name, or you can even register multiple transformers per file if necessary (or you want a common set of
+	transformers). Just make sure you return them all in the table!
 
 ## Conclusion
 
@@ -148,7 +151,9 @@ local function transformer(cst: bright.Cst, config: Config): bright.Cst
 	return cst
 end
 
-bright.registerTransformer("some-transformer", config, transformer)
+return {
+	bright.defineTransformer("some-transformer", config, transformer),
+}
 ```
 
 Congratulations! You now have your first ever transformer! It only goes downhill from here, trust me...

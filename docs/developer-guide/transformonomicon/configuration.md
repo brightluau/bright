@@ -28,8 +28,8 @@ Which maps to the following TOML:
 some_option = true
 ```
 
-When registered with [`registerTransformer`](../../api/std/registerTransformer.md), your function will be provided a
-table that conforms to the newly-created `Config` type as its second argument:
+Your function will be provided a table that conforms to the newly-created `Config` type as its second argument when it's
+invoked:
 
 ```luau
 local function transformer(cst: bright.Cst, config: Config): bright.Cst
@@ -38,7 +38,9 @@ local function transformer(cst: bright.Cst, config: Config): bright.Cst
 	end
 end
 
-bright.registerTransformer("transformer", config, transformer)
+return {
+	bright.defineTransformer("transformer", config, transformer)
+}
 ```
 
 Even if the configuration isn't defined in `bright.toml`, Bright will always provide values based on your default settings.

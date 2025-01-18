@@ -5,8 +5,18 @@ globals:
   types.newtable:
     args: []
     must_use: true
+
   types.singleton:
     args:
       - type: string
         required: true
     must_use: true
+
+  types.negationof:
+    args:
+      - type: { display: "type" }
+        required: true
+    must_use: true
+
+  types.never:
+    property: read-only

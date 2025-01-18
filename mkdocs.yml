@@ -197,5 +197,4 @@ nav:
       - api/index.md
       - Standard Library:
           - api/std/Config.md
-          - api/std/registerTransformer.md
-          - api/std/_getTransformers.md
+          - api/std/defineTransformer.md

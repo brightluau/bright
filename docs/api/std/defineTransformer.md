@@ -2,17 +2,17 @@
 tags: [Experimental]
 ---
 
-# `#!luau function registerTransformer`
+# `#!luau function defineTransformer`
 <!-- b:version dev -->
 
 ```luau
-function bright.registerTransformer<C>(
+function bright.defineTransformer<C>(
 	name: string,
 	config: C,
 	func: TransformerFunction<Config<C>>
-): ()
+): Transformer<C>
 ```
 
-Registers a transformer for Bright to use.
+Defines a transformer to be returned from the transformer module.
 
 The `func` provided will be given a configuration object as defined by [`bright.Config<C>`](./Config.md).

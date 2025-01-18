@@ -20,6 +20,12 @@ export type function Config(userConfig)
 		error(`param must be a table, is actually {userConfig.tag}`, 0)
 	end
 
+	-- if there are no properties in the config table, then the config will never be passed to the transformer, so just
+	-- return never
+	if not next(userConfig:properties()) then
+		return types.never
+	end
+
 	local config = types.newtable()
 
 	for optionName, v in userConfig:properties() do
@@ -58,9 +64,12 @@ export type function Config(userConfig)
 	return config
 end
 
+export type NoConfig = Config<{}>
+
 export type TransformerFunction<C> = (string, config: C) -> string
 
 export type Transformer<C> = {
+	name: string,
 	config: C,
 	func: TransformerFunction<Config<C>>,
 }
