@@ -64,6 +64,7 @@ export type function Config(userConfig)
 	return config
 end
 
+--- A blank configuration.
 export type NoConfig = Config<{}>
 
 export type TransformerFunction<C> = (string, config: C) -> string

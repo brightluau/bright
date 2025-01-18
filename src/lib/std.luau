@@ -7,6 +7,7 @@ local types = require("./types")
 
 -- re-export all of the types that would be most used
 export type Config<C> = types.Config<C>
+export type NoConfig = types.NoConfig
 
 --- Defines a transformer to be returned from the transformer module.
 ---

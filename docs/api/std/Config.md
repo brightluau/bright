@@ -6,7 +6,7 @@ tags: [Experimental]
 <!-- b:version dev -->
 
 ```luau
-type function bright.Config(userConfig)
+type function Config(userConfig)
 ```
 
 Accepts a configuration definition object and returns a key-value pair based on the definition's default values.

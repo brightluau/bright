@@ -106,14 +106,30 @@ local function transformer(cst: bright.Cst, config: Config): bright.Cst
 end
 ```
 
-There are some quirks with how configuration works, so it is advisable to read [Configuration](../transformonomicon/configuration.md) as you
-develop your transformers.
+There are some quirks with how configuration works, so it is advisable to read [Configuration](../transformonomicon/configuration.md)
+as you develop your transformers.
+
+If you don't want a configuration for your transformer, then you should use [`bright.NoConfig`](../../api/std/NoConfig.md).
+This is a simple type that is the equivalent of `#!luau type NoConfig = bright.Config<{}>`, however it is provided so that
+you don't need to define your own.
+
+??? example "Usage of `NoConfig`"
+
+	```luau
+	local function transformer(cst: bright.Cst, _config: bright.NoConfig): bright.Cst
+		-- ...
+	end
+
+	return {
+		bright.defineTransformer("some-transformer", {}, transformer),
+	}
+	```
 
 ## Registration
 
 For Bright to detect your transformer, you need to define and return it from this file. This is accomplished with
-[`bright.defineTransformer`](../../api/std/defineTransformer.md). It takes three arguments: the transformer's name,
-the configuration object, and the transformer function. At the end of your file, add this:
+[`bright.defineTransformer`](../../api/std/defineTransformer.md). It takes three arguments: the transformer's name, the
+configuration object, and the transformer function. At the end of your file, add this:
 
 ```luau title="bright/transformers/someTransformer.luau"
 return {
