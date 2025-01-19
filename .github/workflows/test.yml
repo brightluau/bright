@@ -24,11 +24,22 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup pesde
-        uses: lumin-org/setup-pesde@v0.3.1
-
       - name: Setup Rokit
         uses: CompeyDev/setup-rokit@v0.1.2
+
+      - name: Setup pesde
+        run: |
+          gh release download -R pesde-pkg/pesde -p "*-linux-x86_64.zip"
+
+          mv pesde*.zip pesde.zip
+          unzip pesde.zip
+          chmod +x pesde
+
+          ./pesde self-install
+
+          echo -e "$HOME/.pesde/bin\n$PWD" >> $GITHUB_PATH
+
+          rm pesde
 
       - name: Install project
         run: pesde install
