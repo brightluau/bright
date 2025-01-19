@@ -28,6 +28,8 @@ jobs:
         uses: CompeyDev/setup-rokit@v0.1.2
 
       - name: Setup pesde
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           gh release download -R pesde-pkg/pesde -p "*-linux-x86_64.zip"
 
