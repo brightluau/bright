@@ -49,12 +49,8 @@ jobs:
       - name: Lint
         run: selene --color always --allow-warnings src/
 
-      # regarding if: always(), these should always run regardless of previous failures
-
       - name: Style Check
-        if: always()
         run: stylua --color always -c .
 
       - name: Run Tests
-        if: always()
         run: lune run tests

@@ -4,6 +4,8 @@
 
 local stdio = require("@lune/stdio")
 
+local actions = require("@lune-lib/actions")
+
 local frktest = require("../../lune_packages/frktest")
 local Reporter = frktest._reporters.lune_console_reporter
 
@@ -56,6 +58,22 @@ function ReporterExt.init()
 
 	frktest.test.on_test_skipped(function(test)
 		print(STYLE.report(test.name, "skip", 0))
+	end)
+
+	frktest.assert.on_check_failed(function(failure)
+		actions.error(failure.message, {
+			title = "Check Failed",
+			file = failure.location.file,
+			line = failure.location.line
+		})
+	end)
+
+	frktest.assert.on_require_failed(function(failure)
+		actions.error(failure.message, {
+			title = "Requirement Failed",
+			file = failure.location.file,
+			line = failure.location.line,
+		})
 	end)
 
 	Reporter.init()
