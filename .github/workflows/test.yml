@@ -46,11 +46,11 @@ jobs:
       - name: Install project
         run: pesde install
 
+      - name: Run Tests
+        run: lune run tests
+
       - name: Lint
         run: selene --color always --allow-warnings src/
 
       - name: Style Check
         run: stylua --color always -c .
-
-      - name: Run Tests
-        run: lune run tests
