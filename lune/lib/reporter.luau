@@ -32,7 +32,7 @@ local STYLE = table.freeze({
 local ReporterExt = {}
 function ReporterExt.init()
 	frktest.test.on_suite_enter(function(suite)
-		actions.group(suite)
+		actions.group(suite.name)
 		print(STYLE.suite(suite.name))
 	end)
 
