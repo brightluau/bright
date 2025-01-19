@@ -21,3 +21,14 @@ lib = "./src/lib/lib.luau"
 
 [indices]
 default = "https://github.com/pesde-pkg/index"
+
+[dependencies]
+unzip = { name = "0x5eal/unzip", version = "^0.1.0", target = "luau" }
+argparse = { name = "caveful_games/argparse", version = "^0.1.2" }
+
+[dev_dependencies]
+frktest = { name = "itsfrank/frktest", version = "^0.0.2" }
+
+[patches]
+"0x5eal/unzip" = { "0.1.0 luau" = "patches/0x5eal+unzip-0.1.0+luau.patch" }
+"caveful_games/argparse" = { "0.1.2 lune" = "patches/caveful_games+argparse-0.1.2+lune.patch" }

@@ -1,4 +1,5 @@
 lune_packages/
+luau_packages/
 
 # bright output
 /output

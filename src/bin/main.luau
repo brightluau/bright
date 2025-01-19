@@ -3,42 +3,25 @@
 -- distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 --
 
-local clappy = require("@vendor/clappy")
-local colorful = require("@vendor/colorful")
+local process = require("@lune/process")
 
+local argparse = require("./argparse")
 local cli = require("./cli")
 local fmt = require("./fmt")
 
-print(require("./config"))
-
-local bright = clappy
-	.cli("bright")
-	:palette({
-		primary = colorful.color.yellow,
-		secondary = colorful.combineStyles({}),
-		tertiary = colorful.combineStyles({}),
-	})
-	:metadata({
-		description = "A scriptable tool for transforming and transpiling Luau code",
-		version = "0.1.0",
-		author = "lewisakura",
-
-		afterHelp = "",
-	})
+local bright = argparse()
+	:name("bright")
+	:description("A scriptable tool for transforming and transpiling Luau code.")
+	:epilog("Visit https://brightluau.dev/ for further documentation.")
 
 for i, subcommand in cli do
-	if i == 1 then
-		bright:defineRootCommand(subcommand)
-	else
-		bright:defineSubcommand(subcommand)
-	end
+	subcommand(bright)
 end
 
-local ok, err = pcall(function()
-	bright:run()
-	return nil
+local ok, info = pcall(function()
+	return bright:parse(process.args)
 end)
 
 if not ok then
-	fmt.error("Internal error occurred:", err)
+	fmt.bail("Internal error occurred:", info)
 end

@@ -13,7 +13,7 @@ export type function Config(userConfig)
 	-- if we get unknown, this is usually a typing issue, so give a hint
 	if userConfig:is("unknown") then
 		error("param is unknown"
-			.. "\n[bright] This commonly occurs when registering a transformer. Add a type to your transformer's second argument.", 0)
+			.. "\n[bright] This commonly occurs when defining a transformer. Add a type to your transformer's second argument.", 0)
 	end
 
 	if not userConfig:is("table") then

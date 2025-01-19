@@ -1,0 +1,49 @@
+diff --git a/src/lib.luau b/src/lib.luau
+index 47690d6..446f4d2 100644
+--- a/src/lib.luau
++++ b/src/lib.luau
+@@ -1577,7 +1577,7 @@ type Action<T> = (
+ type Hidden<T> = (self: T, Hidden: boolean) -> T
+ type Argname<T> = (self: T, argname: string | { [number]: string }) -> T
+ 
+-type argument = {
++export type argument = {
+ 	name: Name<argument>,
+ 	description: Description<argument>,
+ 	default: Default<argument>,
+@@ -1590,7 +1590,7 @@ type argument = {
+ 	argname: Argname<argument>,
+ } & InMutex
+ 
+-type option = {
++export type option = {
+ 	name: Name<option>,
+ 	description: Description<option>,
+ 	default: Default<option>,
+@@ -1605,7 +1605,7 @@ type option = {
+ 	argname: Argname<option>,
+ } & InMutex
+ 
+-type flag = {
++export type flag = {
+ 	name: Name<flag>,
+ 	description: Description<flag>,
+ 	default: Default<flag>,
+@@ -1621,7 +1621,7 @@ type flag = {
+ 
+ type mutex = {}
+ 
+-type command = Parser & InMutex
++export type command = Parser & InMutex
+ 
+ type command_target = Parser & InMutex
+ 
+@@ -1636,7 +1636,7 @@ type __callPlusType = typeof(setmetatable(
+ 	}
+ ))
+ 
+-type Parser = {
++export type Parser = {
+ 	__index: Parser,
+ 	name: Name<Parser | __callPlusType>,
+ 	description: Description<Parser | __callPlusType>,

@@ -1,0 +1,55 @@
+From e6a3d89a173b6860fc471324629226f08061c67a Mon Sep 17 00:00:00 2001
+From: Erica Marigold <hi@devcomp.xyz>
+Date: Sun, 19 Jan 2025 20:08:32 +0530
+Subject: [PATCH] Fix bad relationship tree formation
+
+---
+ lib/init.luau | 30 +++++++++++++++++++++++-------
+ 1 file changed, 23 insertions(+), 7 deletions(-)
+
+diff --git a/lib/init.luau b/lib/init.luau
+index 39aed6a..90f87b2 100644
+--- a/lib/init.luau
++++ b/lib/init.luau
+@@ -162,15 +162,31 @@ function ZipEntry.isSymlink(self: ZipEntry): boolean
+ 	return bit32.band(self.attributes, 0xA0000000) == 0xA0000000
+ end
+ 
+-function ZipEntry.getPath(self: ZipEntry): string
+-	local path = self.name
+-	local current = self.parent
++-- function ZipEntry.getPath(self: ZipEntry): string
++-- 	local path = self.name
++-- 	local current = self.parent
+ 
+-	while current and current.name ~= "/" do
+-		path = current.name .. path
+-		current = current.parent
+-	end
++-- 	while current and current.name ~= "/" do
++-- 		path = current.name .. path
++-- 		current = current.parent
++-- 	end
+ 
++-- 	return path
++-- end
++function ZipEntry.getPath(self: ZipEntry): string
++    if self.name == "/" then
++        return "/"
++    end
++    
++    -- Get just the entry name without the path
++    local name = string.match(self.name, "([^/]+)/?$") or self.name
++    
++    if not self.parent or self.parent.name == "/" then
++        return self.name
++    end
++    
++    -- Combine parent path with entry name
++    local path = string.gsub(self.parent:getPath() .. name, "//+", "/")
+ 	return path
+ end
+ 
+-- 
+2.48.1
+

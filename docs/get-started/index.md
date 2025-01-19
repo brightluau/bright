@@ -16,6 +16,10 @@ There are multiple ways of installing Bright, as detailed below.
 
 If you are already using Rokit in your project, simply run `rokit add brightluau/bright`. It's that easy!
 
+### Pesde
+
+Bright is also published on pesde! Run `pesde add brightluau/bright` to install it!
+
 ## Now what?
 
 Now that you're set up, check out how to [initialize your project](../user-guide/initializing-a-project.md) to start

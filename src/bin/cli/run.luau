@@ -3,35 +3,73 @@
 -- distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 --
 
--- local fs = require("@lune/fs")
--- local stdio = require("@lune/stdio")
+local fs = require("@lune/fs")
 
--- local clappy = require("@vendor/clappy")
+local argparse = require("@cli/argparse")
+local config = require("@cli/config")
+local fmt = require("@cli/fmt")
 
--- local constants = require("../constants")
--- local fmt = require("../fmt")
+local types = require("@lib/types")
 
--- local function run(_: any, opts: { force: boolean? })
+local function findTransformer(name: string): string?
+	-- is it a literal file path?
+	if fs.isFile(name) then
+		return name
+	end
 
--- end
+	-- are we just missing the luau extension?
+	if fs.isFile(`{name}.luau`) then
+		return `{name}.luau`
+	end
 
--- return clappy.command({
--- 	name = "run",
--- 	description = "Initializes the current folder with a Bright setup",
+	-- try to find in the bright folder
+	local path = `./bright/transformers/{name}.luau`
 
--- 	parameters = {
--- 		transformers = clappy.parameter({
--- 			position = 1,
--- 			description = "The transformers to execute",
--- 			type = clappy.types.
--- 		})
--- 	},
--- 	opts = {
--- 		force = clappy.opt({
--- 			description = "Forcefully overwrite any Bright configuration non-interactively",
--- 			type = clappy.types.boolean(),
--- 		}),
--- 	},
--- }, run)
+	if fs.isFile(path) then
+		return path
+	end
 
-return nil
+	-- are we adding an extra luau extension?
+	local pathNoExt = `./bright/transformers/{name}`
+
+	if fs.isFile(pathNoExt) then
+		return pathNoExt
+	end
+
+	-- no idea
+	return nil
+end
+
+local function run(opts: { input: string, output: string, transformers: { string } })
+	if #opts.transformers == 0 then
+		opts.transformers = config.transformers
+	end
+
+	if not fs.isDir(opts.input) then
+		fmt.bail(`Source path \`{opts.input}\` does not exist.`)
+	end
+
+	if #opts.transformers == 0 then
+		fmt.bail("No transformers to run.", fmt.hint("Have you configured any transformers in `bright.toml`?"))
+	end
+
+	local transformerStack: { types.Transformer<any> } = {}
+
+	for _, transformer in opts.transformers do
+		local location = findTransformer(transformer)
+
+		if not location then
+			fmt.bail(`Could not find transformer \`{transformer}\`.`)
+		end
+	end
+end
+
+return function(parser: argparse.Parser)
+	local command = parser:command("run"):description("Executes and applies transformers on source code"):action(run)
+
+	command:argument("transformers"):description("The transformers to run"):args("*")
+
+	command:option("-i --input"):description("The input source code"):default(config.source)
+
+	command:option("-o --output"):description("The output for the transformed code"):default(config.output)
+end

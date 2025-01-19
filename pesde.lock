@@ -1,3 +1,69 @@
 name = "brightluau/bright"
 version = "0.1.0"
 target = "lune"
+
+[graph."0x5eal/unzip"."0.1.0 luau"]
+direct = ["unzip", { name = "0x5eal/unzip", version = "^0.1.0", target = "luau" }, "standard"]
+resolved_ty = "standard"
+
+[graph."0x5eal/unzip"."0.1.0 luau".target]
+environment = "luau"
+lib = "lib/init.luau"
+
+[graph."0x5eal/unzip"."0.1.0 luau".pkg_ref]
+ref_ty = "pesde"
+name = "0x5eal/unzip"
+version = "0.1.0"
+index_url = "https://github.com/pesde-pkg/index"
+
+[graph."0x5eal/unzip"."0.1.0 luau".pkg_ref.dependencies]
+asciitable = [{ name = "kimpure/asciitable", version = "^0.1.4", index = "https://github.com/pesde-pkg/index" }, "dev"]
+frktest = [{ name = "itsfrank/frktest", version = "^0.0.2", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
+luau-lsp = [{ name = "pesde/luau_lsp", version = "^1.38.0", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
+stylua = [{ name = "pesde/stylua", version = "^2.0.2", index = "https://github.com/pesde-pkg/index", target = "lune" }, "dev"]
+
+[graph."0x5eal/unzip"."0.1.0 luau".pkg_ref.target]
+environment = "luau"
+lib = "lib/init.luau"
+
+[graph."caveful_games/argparse"."0.1.2 lune"]
+direct = ["argparse", { name = "caveful_games/argparse", version = "^0.1.2" }, "standard"]
+resolved_ty = "standard"
+
+[graph."caveful_games/argparse"."0.1.2 lune".target]
+environment = "lune"
+lib = "src/lib.luau"
+
+[graph."caveful_games/argparse"."0.1.2 lune".pkg_ref]
+ref_ty = "pesde"
+name = "caveful_games/argparse"
+version = "0.1.2"
+index_url = "https://github.com/pesde-pkg/index"
+
+[graph."caveful_games/argparse"."0.1.2 lune".pkg_ref.dependencies]
+luau_check = [{ name = "jiwonz/luau_check", version = "^0.2.0", index = "https://github.com/pesde-pkg/index" }, "dev"]
+luau_lsp = [{ name = "pesde/luau_lsp", version = "^1.38.0", index = "https://github.com/pesde-pkg/index" }, "dev"]
+selene = [{ name = "pesde/selene", version = "^0.27.1", index = "https://github.com/pesde-pkg/index" }, "dev"]
+stylua = [{ name = "pesde/stylua", version = "^2.0.2", index = "https://github.com/pesde-pkg/index" }, "dev"]
+
+[graph."caveful_games/argparse"."0.1.2 lune".pkg_ref.target]
+environment = "lune"
+lib = "src/lib.luau"
+
+[graph."itsfrank/frktest"."0.0.2 lune"]
+direct = ["frktest", { name = "itsfrank/frktest", version = "^0.0.2" }, "dev"]
+resolved_ty = "dev"
+
+[graph."itsfrank/frktest"."0.0.2 lune".target]
+environment = "lune"
+lib = "src/_pesde_init.luau"
+
+[graph."itsfrank/frktest"."0.0.2 lune".pkg_ref]
+ref_ty = "pesde"
+name = "itsfrank/frktest"
+version = "0.0.2"
+index_url = "https://github.com/pesde-pkg/index"
+
+[graph."itsfrank/frktest"."0.0.2 lune".pkg_ref.target]
+environment = "lune"
+lib = "src/_pesde_init.luau"

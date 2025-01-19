@@ -3,9 +3,10 @@
 -- distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
 --
 
-local clappy = require("@vendor/clappy/types")
+local argparse = require("@cli/argparse")
 
 return {
-	require("./run"),
 	require("./cmd_init"),
-} :: { clappy.CommandInfo }
+	--require("./run"),
+	require("./update")
+} :: { (argparse.Parser) -> () }

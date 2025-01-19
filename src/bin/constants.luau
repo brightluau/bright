@@ -6,4 +6,6 @@
 return {
 	CONFIGURATION_FILE = "./bright.toml",
 	BRIGHT_FOLDER = "./bright",
+
+	GITHUB_LATEST_RELEASE = "https://github.com/brightluau/bright/releases/latest",
 }

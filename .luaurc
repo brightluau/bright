@@ -6,10 +6,14 @@
 	"typeErrors": true,
 	"aliases": {
 		"lib": "./src/lib",
-		"cli": "./src/cli",
+		"cli": "./src/bin",
 		"vendor": "./vendor",
-
 		"lune": "./lune/.typedefs",
-		"lune-lib": "./lune/lib"
+		"lune-lib": "./lune/lib",
+
+		"pkgs-luau": "./luau_packages",
+		"pkgs": "./lune_packages",
+
+		"frktest": "./lune_packages/.pesde/itsfrank+frktest/0.0.2/frktest/src/"
 	}
 }
