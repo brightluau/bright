@@ -66,7 +66,7 @@ local function run(opts: { force: boolean })
 
 	if usePesde then
 		progress:writeOutput("Adding to pesde.toml")
-		local addResult = process.spawn("pesde", { "add", "-d", "brightluau/bright" })
+		local addResult = process.spawn("pesde", { "add", "-d", "bright/bright" })
 		if not addResult.ok then
 			progress:finish(fmt.symbols.error)
 			fmt.bail("\nFailed to install Bright libraries through pesde:", addResult.stderr)

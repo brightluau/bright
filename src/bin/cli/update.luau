@@ -14,7 +14,7 @@ local function run()
 		if pesde.dev_dependencies and pesde.dev_dependencies.bright then
 			fmt.bail(
 				"Bright is managed through pesde!",
-				fmt.hint("To update it, you need to run `pesde add -d brightluau/bright`.")
+				fmt.hint("To update it, you need to run `pesde add -d bright/bright`.")
 			)
 		end
 	end

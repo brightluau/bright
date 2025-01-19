@@ -1,4 +1,4 @@
-name = "brightluau/bright"
+name = "bright/bright"
 version = "0.1.0"
 description = "A scriptable tool for transforming and transpiling Luau code"
 authors = ["lewisakura <lewi@lewisakura.moe> (https://lewisakura.moe)"]
