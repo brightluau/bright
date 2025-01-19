@@ -8,5 +8,5 @@ local argparse = require("@cli/argparse")
 return {
 	require("./cmd_init"),
 	--require("./run"),
-	require("./update")
+	require("./update"),
 } :: { (argparse.Parser) -> () }

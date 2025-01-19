@@ -9,8 +9,12 @@ export type AnnotationInfo = {
 	endLine: number?,
 }
 
+local function checkGitHub(): boolean
+	return process.env["GITHUB_ACTIONS"]
+end
+
 local function annotation(type: string, message: string, info: AnnotationInfo?)
-	if not process.env["GITHUB_ACTIONS"] then
+	if not checkGitHub() then
 		return -- no-op if this isn't github actions
 	end
 
@@ -46,9 +50,28 @@ local function error(message: string, info: AnnotationInfo?)
 	annotation("error", message, info)
 end
 
+local function group(groupName: string)
+	if not checkGitHub() then
+		return
+	end
+
+	print(`::group::{groupName}`)
+end
+
+local function endGroup()
+	if not checkGitHub() then
+		return
+	end
+
+	print("::endgroup::")
+end
+
 return {
 	debug = debug,
 	notice = notice,
 	warning = warning,
 	error = error,
+
+	group = group,
+	endGroup = endGroup,
 }

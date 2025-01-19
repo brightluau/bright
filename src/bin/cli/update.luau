@@ -1,10 +1,15 @@
+--
+-- This Source Code Form is subject to the terms of the Mozilla Public License, v. 2.0. If a copy of the MPL was not
+-- distributed with this file, You can obtain one at https://mozilla.org/MPL/2.0/.
+--
+
 local fs = require("@lune/fs")
 local serde = require("@lune/serde")
 
 local argparse = require("@cli/argparse")
 local constants = require("@cli/constants")
-local fmt = require("@cli/fmt")
 local fetchLibrariesFromGit = require("@cli/util/fetchLibrariesFromGit")
+local fmt = require("@cli/fmt")
 
 local function run()
 	if fs.isFile("pesde.toml") then

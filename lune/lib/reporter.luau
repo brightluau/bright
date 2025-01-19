@@ -32,11 +32,13 @@ local STYLE = table.freeze({
 local ReporterExt = {}
 function ReporterExt.init()
 	frktest.test.on_suite_enter(function(suite)
+		actions.group(suite)
 		print(STYLE.suite(suite.name))
 	end)
 
 	frktest.test.on_suite_leave(function()
 		stdio.write("\n")
+		actions.endGroup()
 	end)
 
 	local send_ts, recv_ts = watch((nil :: any) :: number)
