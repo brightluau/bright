@@ -44,7 +44,7 @@ h6 {
 .md-tabs {
 	color: var(--md-default-fg-color);
 	background-color: initial;
-	backdrop-filter: blur(1rem);
+	backdrop-filter: blur(0.25rem);
 }
 
 .md-search__form:hover {
